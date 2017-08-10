@@ -1,0 +1,37 @@
+export default{
+   
+    colors:{
+         mainColor:'#fd4a49',
+         unselectedColor:'#999999',
+         defaultFontColor:'#464646',
+         hColor:'#9e9e9e',
+         blackColor:'#202020',
+         bgColor:"#f2f2f2",
+         dText:'#c2c2c2',
+         hBgColor:'#f4f4f4',
+         B6Color:"#6b6b6b",
+         BaColor:'#bababa',
+         cColor:'#ccc',
+         lineColor:'#f4f4f4',
+         SHCOlor:"#949493",
+         HSCOlor:"#464646"
+    },
+    fontSize:{
+    size_12:12,
+     size_13:13,
+    size_14:14,
+     size_15:14,
+    size_16:16,
+     size_17:14,
+     size_18:18,
+      size_19:14,
+    size_20:20,
+     size_22:22,
+      size_24:24,
+    },
+    tabIcon:{
+     height:30,
+     width:30 
+    },
+    pixSize:720
+}
