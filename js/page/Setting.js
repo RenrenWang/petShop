@@ -18,25 +18,32 @@ import _ from 'lodash';
 import StyleConfig from '../base/StyleConfig'
 import Config  from '../config'
 import NavBar from '../components/NavBar'
+import Clear from 'react-native-clear-cache';
 import { NavigationActions } from 'react-navigation'
 export default class Setting extends React.Component {
     constructor(props){
         super(props)
         this.state={
-            cacheSize:0
+            cacheSize:0,
+            unit:"",
         }
 
     }
 
     componentDidMount(){
-       NativeModules.Platform.getTotalCacheSize().then(size=>{
-            this.setState({
-                cacheSize:size
-            })
-       }).catch(e=>{
-           console.log(e);
-       })
-        
+    //    NativeModules.Platform.getTotalCacheSize().then(size=>{
+    //         this.setState({
+    //             cacheSize:size
+    //         })
+    //    }).catch(e=>{
+    //        console.log(e);
+    //    })
+    Clear.getCacheSize((value,unit)=>{
+                this.setState({
+                cacheSize:value, //缓存大小
+                unit:unit  //缓存单位
+                })
+            });
     }
       logOut() {
 
@@ -73,25 +80,26 @@ export default class Setting extends React.Component {
     }
 
     clearSize(){
-       // alert(NativeModules.Platform.cacheSize);
-      NativeModules.Platform.clearAllCache().then(result=>{
-         if(result){
-              this.setState({
-                cacheSize:"0k"
-            })
-         }
-             
-      }).catch(err=>{
-           console.log(err)
-      })
+       Clear.runClearCache(()=>{
+            
+                  console.log("清除成功");
+            
+                  Clear.getCacheSize((value,unit)=>{
+                  this.setState({
+                    cacheSize:value, //缓存大小
+                    unit:unit  //缓存单位
+                  })
+                });
+                  
+                });
     }
     render(){
           let {goBack, state} = this.props.navigation;
           let  list=[
-                {name:"清除缓存",routerName:'',actions:()=>{},text:this.state.cacheSize},
-                {name:"意见反馈",routerName:'',actions:this.clearSize},
-                {name:"关于我们",routerName:''},
-                {name:"帮助",routerName:''},
+                {name:"清除缓存",routerName:'',actions:this.clearSize.bind(this),text:this.state.cacheSize+''+this.state.unit},
+                {name:"意见反馈",routerName:'',actions:()=>{}},
+                {name:"关于我们",routerName:'',actions:()=>{}},
+                {name:"帮助",routerName:'',actions:()=>{}},
                
           ];
            
@@ -114,10 +122,10 @@ export default class Setting extends React.Component {
                   <View style={{marginTop:10}}> 
                    { list.map((item,index)=>{
                     return  <TouchableOpacity
-                        key={index}
-                      onPress={this.clearSize.bind(this)}
+                     key={index}
+                      onPress={item.actions}
                       activeOpacity={1}
-                      style={{height:50,paddingHorizontal:5,backgroundColor:'#fff',flexDirection:'row',justifyContent:'space-between',alignItems:'center',borderBottomWidth:1,borderBottomColor:StyleConfig.colors.lineColor}}>
+                      style={{height:50,paddingHorizontal:15,backgroundColor:'#fff',flexDirection:'row',justifyContent:'space-between',alignItems:'center',borderBottomWidth:1,borderBottomColor:StyleConfig.colors.lineColor}}>
                         <Text style={{fontSize:StyleConfig.fontSize.size_14,color:StyleConfig.colors.B6Color}}>{item.name}</Text>
                          {!item.text?<Image source={require('../static/images/rightArrow.png')} style={{tintColor: StyleConfig.colors.B6Color,height:18,width:18}}/>:
                          <Text>{item.text}</Text>}

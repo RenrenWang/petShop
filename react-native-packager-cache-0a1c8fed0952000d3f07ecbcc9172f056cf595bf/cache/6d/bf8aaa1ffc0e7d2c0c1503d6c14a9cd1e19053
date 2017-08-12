@@ -1,0 +1,96 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.setOptions = setOptions;
+exports.setOptionsWidth = setOptionsWidth;
+exports.setActionThreshold = setActionThreshold;
+exports.setSnapVelocity = setSnapVelocity;
+exports.setInterpolation = setInterpolation;
+
+var _util = require('./util');
+
+function setOptions(state, props) {
+    return {
+        left: (0, _util.toArray)(props.left),
+        right: (0, _util.toArray)(props.right)
+    };
+}
+
+function setOptionsWidth(state, props) {
+    return {
+        leftWidth: _reduceWidth(state.left, props.optionWidth),
+        rightWidth: _reduceWidth(state.right, props.optionWidth)
+    };
+}
+
+function setActionThreshold(state, props) {
+    var leftThreshold = props.leftActionThreshold || props.actionThreshold;
+    var rightThreshold = props.rightActionThreshold || props.actionThreshold;
+    var leftThresholdDistance = leftThreshold <= 1 ? state.leftWidth * leftThreshold : leftThreshold;
+    var rightThresholdDistance = rightThreshold <= 1 ? state.rightWidth * rightThreshold : rightThreshold;
+
+    return {
+        leftActionThreshold: leftThresholdDistance,
+        rightActionThreshold: rightThresholdDistance
+    };
+}
+
+function setSnapVelocity(state, props) {
+    return {
+        snapVelocity: props.snapVelocity,
+        leftSnapVelocity: props.leftSnapVelocity || props.snapVelocity,
+        rightSnapVelocity: props.rightSnapVelocity || props.snapVelocity
+    };
+}
+
+function setInterpolation(state, props) {
+    return {
+        interpolation: _buildInterpolate(state.leftWidth, state.rightWidth)
+    };
+}
+
+function _reduceWidth(arr, optionWidth) {
+    return arr.map(function (v) {
+        return v.style ? v.style.width ? v.style.width : optionWidth : optionWidth;
+    }).reduce(function (acc, val) {
+        return acc + val;
+    }, 0);
+}
+
+function _buildInterpolate(leftWidth, rightWidth) {
+    var leftDecaySeriesInputRange = (0, _util.decaySeries)(leftWidth, 30, 1);
+    var leftDecaySeriesOutputRange = (0, _util.decaySeries)(leftWidth, 30, 0.77);
+    var rightDecaySeriesInputRange = (0, _util.decaySeries)(rightWidth, 30, 1).map(function (v) {
+        return -v;
+    }).sort(function (v1, v2) {
+        return v1 - v2;
+    });
+    var rightDecaySeriesOutputRange = (0, _util.decaySeries)(rightWidth, 30, 0.77).map(function (v) {
+        return -v;
+    }).sort(function (v1, v2) {
+        return v1 - v2;
+    });
+    var childrenInputRange = [].concat(babelHelpers.toConsumableArray(rightDecaySeriesInputRange), [0], babelHelpers.toConsumableArray(leftDecaySeriesInputRange));
+    var childrenOutputRange = [].concat(babelHelpers.toConsumableArray(rightDecaySeriesOutputRange), [0], babelHelpers.toConsumableArray(leftDecaySeriesOutputRange));
+    var childrenInputRangeUnique = (0, _util.uniqueSortArray)(childrenInputRange);
+    var childrenOutputRangeUnique = (0, _util.uniqueSortArray)(childrenOutputRange);
+
+    return {
+        left: {
+            inputRange: [0, leftWidth],
+            outputRange: [0, leftWidth],
+            extrapolate: 'clamp'
+        },
+        right: {
+            inputRange: [-rightWidth, 0],
+            outputRange: [-rightWidth, 0],
+            extrapolate: 'clamp'
+        },
+        children: {
+            inputRange: childrenInputRangeUnique,
+            outputRange: childrenOutputRangeUnique,
+            extrapolateRight: leftWidth === 0 ? 'clamp' : 'extend',
+            extrapolateLeft: rightWidth === 0 ? 'clamp' : 'extend'
+        }
+    };
+}

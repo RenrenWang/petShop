@@ -74,9 +74,9 @@ export default  class Login extends React.Component {
                 { cancelable: false }
             );
         }
-        this.setState({
-            isLogin:true
-        })
+        // this.setState({
+        //     isLogin:true
+        // })
         fetch(Config.LOGIN + this.state.username + '&userLoginPwd=' + this.state.password)
             .then((response) => response.json())
             .then((responseJson) => {

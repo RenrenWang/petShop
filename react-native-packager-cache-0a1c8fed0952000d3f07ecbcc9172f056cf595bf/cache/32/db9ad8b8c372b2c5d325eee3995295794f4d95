@@ -1,0 +1,19 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var NotFoundError = exports.NotFoundError = function NotFoundError(message) {
+  babelHelpers.classCallCheck(this, NotFoundError);
+
+  this.name = 'NotFoundError';
+  this.message = 'Not Found! Params: ' + message;
+  this.stack = new Error().stack;
+};
+
+var ExpiredError = exports.ExpiredError = function ExpiredError(message) {
+  babelHelpers.classCallCheck(this, ExpiredError);
+
+  this.name = 'ExpiredError';
+  this.message = 'Expired! Params: ' + message;
+  this.stack = new Error().stack;
+};

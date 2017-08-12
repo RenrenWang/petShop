@@ -1,3 +1,10 @@
 rootProject.name = 'petShop'
+include ':react-native-yunpeng-alipay'
+project(':react-native-yunpeng-alipay').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-yunpeng-alipay/android')
+include ':react-native-clear-cache'
+project(':react-native-clear-cache').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-clear-cache/android')
 
+
+include ':react-native-splash-screen'
+project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
 include ':app'

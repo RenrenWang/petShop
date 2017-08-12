@@ -1,0 +1,197 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/js/components/SetTimeItem.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _lodash = require('lodash');
+
+var _lodash2 = babelHelpers.interopRequireDefault(_lodash);
+
+var _StyleConfig = require('../base/StyleConfig');
+
+var _StyleConfig2 = babelHelpers.interopRequireDefault(_StyleConfig);
+
+var _config = require('../config');
+
+var _config2 = babelHelpers.interopRequireDefault(_config);
+
+var _Dimensions$get = _reactNative.Dimensions.get('window'),
+    width = _Dimensions$get.width,
+    height = _Dimensions$get.height;
+
+var SetTimeItem = function (_React$Component) {
+    babelHelpers.inherits(SetTimeItem, _React$Component);
+
+    function SetTimeItem(props) {
+        babelHelpers.classCallCheck(this, SetTimeItem);
+        return babelHelpers.possibleConstructorReturn(this, (SetTimeItem.__proto__ || Object.getPrototypeOf(SetTimeItem)).call(this, props));
+    }
+
+    babelHelpers.createClass(SetTimeItem, [{
+        key: '_onPress',
+        value: function _onPress(id) {
+
+            return this.props.navigation.navigate(this.props.isHome ? "SetTime" : "Details", { id: id });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var data = this.props.item;
+            var syNumber = data.prdIvnnums - data.prdNums;
+            syNumber = syNumber > 0 ? syNumber : 0;
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { marginTop: this.props.mTop ? this.props.mTop : 0, flexDirection: 'row', backgroundColor: '#fff', justifyContent: 'space-between', paddingVertical: 10 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 30
+                    }
+                },
+                _react2.default.createElement(_reactNative.Image, {
+
+                    resizeMethod: 'resize',
+                    style: { width: 180 * (width / 720), height: 180 * (width / 720) },
+
+                    source: { uri: _config2.default.BASEURL + data.prdUri },
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 31
+                    }
+                }),
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { paddingHorizontal: 10, flex: 1, flexDirection: 'column', justifyContent: 'space-between' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 38
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        { numberOfLines: 2, style: { textAlign: 'left', fontSize: _StyleConfig2.default.fontSize.size_16, color: _StyleConfig2.default.colors.defaultFontColor }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 39
+                            }
+                        },
+                        data.prdName
+                    ),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'column', justifyContent: 'space-between' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 40
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flex: 1, flexDirection: 'row', justifyContent: 'space-between' }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 41
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { fontSize: _StyleConfig2.default.fontSize.size_18, color: _StyleConfig2.default.colors.mainColor, fontWeight: '600' }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 42
+                                    }
+                                },
+                                '\uFFE5',
+                                data.prdZkprice
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                {
+                                    activeOpacity: 1,
+                                    onPress: _lodash2.default.throttle(this._onPress.bind(this, data.prdIds), 1000, {
+
+                                        'trailing': false
+                                    }),
+                                    style: { alignSelf: 'flex-end', borderRadius: 5, height: 32, width: 100, backgroundColor: _StyleConfig2.default.colors.mainColor, justifyContent: 'center', alignItems: 'center' },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 43
+                                    }
+                                },
+                                this.props.isHome ? _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff' }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 51
+                                        }
+                                    },
+                                    '\u9A6C\u4E0A\u62A2'
+                                ) : _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff' }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 51
+                                        }
+                                    },
+                                    '\u7ACB\u523B\u8D2D\u4E70'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flexDirection: 'row', justifyContent: 'space-between' }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 55
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { textDecorationLine: 'line-through', color: _StyleConfig2.default.colors.hColor, fontSize: _StyleConfig2.default.fontSize.size_13 }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 58
+                                    }
+                                },
+                                '\uFFE5',
+                                data.prdOldprice
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.View,
+                                { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 59
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { marginRight: 5, color: _StyleConfig2.default.colors.hColor, fontSize: _StyleConfig2.default.fontSize.size_13, alignSelf: 'flex-end' }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 60
+                                        }
+                                    },
+                                    '\u4EC5\u5269',
+                                    syNumber,
+                                    '\u4EF6'
+                                ),
+                                _react2.default.createElement(
+                                    _reactNative.View,
+                                    { style: { borderRadius: 3, height: 5, width: 100, backgroundColor: _StyleConfig2.default.colors.bgColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 61
+                                        }
+                                    },
+                                    _react2.default.createElement(_reactNative.View, { style: { borderRadius: 3, height: 5, width: 100 * (syNumber / data.prdIvnnums), backgroundColor: _StyleConfig2.default.colors.mainColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 62
+                                        }
+                                    })
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+    return SetTimeItem;
+}(_react2.default.Component);
+
+exports.default = SetTimeItem;

@@ -1,0 +1,104 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.toArray = toArray;
+exports.uniqueSortArray = uniqueSortArray;
+exports.emptyFn = emptyFn;
+exports.filterContainerStyle = filterContainerStyle;
+exports.filterSelfStyle = filterSelfStyle;
+exports.filterBackGroundColor = filterBackGroundColor;
+exports.decaySeries = decaySeries;
+exports.debounce = debounce;
+
+var _reactNative = require('react-native');
+
+var CONTAINER_STYLE = ['alignItems', 'justifyContent', 'flexDirection', 'flexWrap'];
+var BACKGROUND_STYLE = ['backgroundColor'];
+
+function toArray(v) {
+    if (!Array.isArray(v)) {
+        return [v].filter(function (_v) {
+            return !!_v;
+        });
+    } else {
+        return v.filter(function (_v) {
+            return !!_v;
+        });
+    }
+}
+
+function uniqueSortArray() {
+    var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+    var uniqueArr = [];
+    var item = null;
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === item) {
+            continue;
+        }
+        item = arr[i];
+        uniqueArr.push(item);
+    }
+    return uniqueArr;
+}
+
+function emptyFn() {}
+
+function filterContainerStyle(style) {
+    style = _reactNative.StyleSheet.flatten(style);
+    var cStyle = {};
+    CONTAINER_STYLE.map(function (v) {
+        if (style[v]) {
+            cStyle[v] = style[v];
+        }
+    });
+    return _reactNative.StyleSheet.create({ cStyle: cStyle }).cStyle;
+}
+
+function filterSelfStyle(style) {
+    style = _reactNative.StyleSheet.flatten(style);
+    var sStyle = babelHelpers.extends({}, style);
+    CONTAINER_STYLE.map(function (v) {
+        delete sStyle[v];
+    });
+    return _reactNative.StyleSheet.create({ sStyle: sStyle }).sStyle;
+}
+
+function filterBackGroundColor(style) {
+    style = _reactNative.StyleSheet.flatten(style);
+    var bStyle = babelHelpers.extends({}, style);
+    BACKGROUND_STYLE.map(function (v) {
+        delete bStyle[v];
+    });
+    return _reactNative.StyleSheet.create({ bStyle: bStyle }).bStyle;
+}
+
+function decaySeries() {
+    var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
+    var coef = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+
+    var arr = [];
+    var n = num;
+    for (var i = 0; i < count; i++) {
+        arr.push(n);
+        if (n !== 0) {
+            n = n + Math.pow(n, coef);
+        }
+    }
+    return arr;
+}
+
+function debounce(fn) {
+    var time = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+
+    var timer = 0;
+    return function () {
+        var self = this;
+        var args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            fn.apply(self, args);
+        }, time);
+    };
+}

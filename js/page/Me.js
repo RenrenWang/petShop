@@ -192,17 +192,14 @@ export default class Me extends React.Component {
       {name:"我的宠物",routerName:'MyPet',icon:require('../static/images/myc.png')},
       {name:"收货地址",routerName:'ShippingAddress',icon:require('../static/images/addree.png')},
       {name:"推荐分享",routerName:'',icon:require('../static/images/link.png'),action:this._shareText.bind(this)},
-      {name:"艾宠客服",routerName:'',icon:require('../static/images/kf.png'),action:this._actionCustomService.bind(this)}
+      {name:"艾宠客服",routerName:'',icon:require('../static/images/msg.png'),action:this._actionCustomService.bind(this)}
       ]
     return<ScrollView 
        horizontal={false}
        style={{flex:1}}
        >
      {!this.state.isLoading?<View style={{flex:1}}>
-    {/* <StatusBar
-        backgroundColor={"rgba(82,84,63,0.2)"}
-      
-      />  */}
+  
    {this.renderCustomService()}
          <View
          

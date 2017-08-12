@@ -1,0 +1,212 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = babelHelpers.interopRequireDefault(_propTypes);
+
+var _reactNative = require('react-native');
+
+var _moment = require('moment');
+
+var _moment2 = babelHelpers.interopRequireDefault(_moment);
+
+var regeneratorRuntime = require('regenerator-runtime');
+
+var CustomDatePickerAndroid = function (_Component) {
+  babelHelpers.inherits(CustomDatePickerAndroid, _Component);
+
+  function CustomDatePickerAndroid() {
+    var _ref,
+        _this2 = this;
+
+    var _temp, _this, _ret;
+
+    babelHelpers.classCallCheck(this, CustomDatePickerAndroid);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = CustomDatePickerAndroid.__proto__ || Object.getPrototypeOf(CustomDatePickerAndroid)).call.apply(_ref, [this].concat(args))), _this), _this.componentDidUpdate = function (prevProps) {
+      if (!prevProps.isVisible && _this.props.isVisible) {
+        if (_this.props.mode === 'date' || _this.props.mode === 'datetime') {
+          _this._showDatePickerAndroid();
+        } else {
+          _this._showTimePickerAndroid();
+        }
+      }
+    }, _this._showDatePickerAndroid = function _callee() {
+      var _ref2, action, year, month, day, date, timeOptions, _ref3, timeAction, hour, minute, selectedDate, code, message;
+
+      return regeneratorRuntime.async(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return regeneratorRuntime.awrap(_reactNative.DatePickerAndroid.open({
+                date: _this.props.date,
+                minDate: _this.props.minimumDate,
+                maxDate: _this.props.maximumDate,
+                mode: _this.props.datePickerModeAndroid
+              }));
+
+            case 3:
+              _ref2 = _context.sent;
+              action = _ref2.action;
+              year = _ref2.year;
+              month = _ref2.month;
+              day = _ref2.day;
+
+              if (!(action !== _reactNative.DatePickerAndroid.dismissedAction)) {
+                _context.next = 26;
+                break;
+              }
+
+              date = (0, _moment2.default)({ year: year, month: month, day: day }).toDate();
+
+              if (!(_this.props.mode === 'datetime')) {
+                _context.next = 22;
+                break;
+              }
+
+              timeOptions = { is24Hour: _this.props.is24Hour };
+
+              if (_this.props.date) {
+                timeOptions.hours = _this.props.date.getHours();
+                timeOptions.minute = _this.props.date.getMinutes();
+              }
+              _context.next = 15;
+              return regeneratorRuntime.awrap(_reactNative.TimePickerAndroid.open(timeOptions));
+
+            case 15:
+              _ref3 = _context.sent;
+              timeAction = _ref3.action;
+              hour = _ref3.hour;
+              minute = _ref3.minute;
+
+              if (timeAction !== _reactNative.TimePickerAndroid.dismissedAction) {
+                selectedDate = new Date(year, month, day, hour, minute);
+
+                _this.props.onConfirm(selectedDate);
+                _this.props.onHideAfterConfirm(selectedDate);
+              } else {
+                _this.props.onCancel();
+              }
+              _context.next = 24;
+              break;
+
+            case 22:
+              _this.props.onConfirm(date);
+              _this.props.onHideAfterConfirm(date);
+
+            case 24:
+              _context.next = 27;
+              break;
+
+            case 26:
+              _this.props.onCancel();
+
+            case 27:
+              _context.next = 34;
+              break;
+
+            case 29:
+              _context.prev = 29;
+              _context.t0 = _context['catch'](0);
+              code = _context.t0.code;
+              message = _context.t0.message;
+
+              console.warn('Cannot open date picker', message);
+
+            case 34:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, null, _this2, [[0, 29]]);
+    }, _this._showTimePickerAndroid = function _callee2() {
+      var _ref5, action, hour, minute, date, code, message;
+
+      return regeneratorRuntime.async(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.prev = 0;
+              _context2.next = 3;
+              return regeneratorRuntime.awrap(_reactNative.TimePickerAndroid.open({
+                hour: (0, _moment2.default)(_this.props.date).hour(),
+                minute: (0, _moment2.default)(_this.props.date).minute(),
+                is24Hour: _this.props.is24Hour
+              }));
+
+            case 3:
+              _ref5 = _context2.sent;
+              action = _ref5.action;
+              hour = _ref5.hour;
+              minute = _ref5.minute;
+
+              if (action !== _reactNative.TimePickerAndroid.dismissedAction) {
+                date = (0, _moment2.default)({ hour: hour, minute: minute }).toDate();
+
+                _this.props.onConfirm(date);
+                _this.props.onHideAfterConfirm(date);
+              } else {
+                _this.props.onCancel();
+              }
+              _context2.next = 15;
+              break;
+
+            case 10:
+              _context2.prev = 10;
+              _context2.t0 = _context2['catch'](0);
+              code = _context2.t0.code;
+              message = _context2.t0.message;
+
+              console.warn('Cannot open time picker', message);
+
+            case 15:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, null, _this2, [[0, 10]]);
+    }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+  }
+
+  babelHelpers.createClass(CustomDatePickerAndroid, [{
+    key: 'render',
+    value: function render() {
+      return null;
+    }
+  }]);
+  return CustomDatePickerAndroid;
+}(_react.Component);
+
+CustomDatePickerAndroid.propTypes = {
+  date: _propTypes2.default.instanceOf(Date),
+  mode: _propTypes2.default.oneOf(['date', 'time', 'datetime']),
+  onCancel: _propTypes2.default.func.isRequired,
+  onConfirm: _propTypes2.default.func.isRequired,
+  onHideAfterConfirm: _propTypes2.default.func,
+  is24Hour: _propTypes2.default.bool,
+  isVisible: _propTypes2.default.bool,
+  datePickerModeAndroid: _propTypes2.default.oneOf(['calendar', 'spinner', 'default']),
+  minimumDate: _propTypes2.default.instanceOf(Date),
+  maximumDate: _propTypes2.default.instanceOf(Date)
+};
+CustomDatePickerAndroid.defaultProps = {
+  date: new Date(),
+  mode: 'date',
+  datePickerModeAndroid: 'default',
+  is24Hour: true,
+  isVisible: false,
+  onHideAfterConfirm: function onHideAfterConfirm() {}
+};
+exports.default = CustomDatePickerAndroid;

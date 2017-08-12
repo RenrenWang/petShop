@@ -1,0 +1,43 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/index.ios.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _setup = require('./js/setup.js');
+
+var _setup2 = babelHelpers.interopRequireDefault(_setup);
+
+var petShop = function (_Component) {
+  babelHelpers.inherits(petShop, _Component);
+
+  function petShop() {
+    babelHelpers.classCallCheck(this, petShop);
+    return babelHelpers.possibleConstructorReturn(this, (petShop.__proto__ || Object.getPrototypeOf(petShop)).apply(this, arguments));
+  }
+
+  babelHelpers.createClass(petShop, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(_setup2.default, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 17
+        }
+      });
+    }
+  }]);
+  return petShop;
+}(_react.Component);
+
+exports.default = petShop;
+
+
+_reactNative.AppRegistry.registerComponent('petShop', function () {
+  return petShop;
+});

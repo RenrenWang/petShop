@@ -1,0 +1,932 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/js/page/AllOrderForm.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _lodash = require('lodash');
+
+var _lodash2 = babelHelpers.interopRequireDefault(_lodash);
+
+var _StyleConfig = require('../base/StyleConfig');
+
+var _StyleConfig2 = babelHelpers.interopRequireDefault(_StyleConfig);
+
+var _config = require('../config');
+
+var _config2 = babelHelpers.interopRequireDefault(_config);
+
+var _NavBar = require('../components/NavBar');
+
+var _NavBar2 = babelHelpers.interopRequireDefault(_NavBar);
+
+var _react_native_countdowntimer = require('react_native_countdowntimer');
+
+var _react_native_countdowntimer2 = babelHelpers.interopRequireDefault(_react_native_countdowntimer);
+
+var _Loading = require('../components/Loading');
+
+var _Loading2 = babelHelpers.interopRequireDefault(_Loading);
+
+var _reactNativeScrollableTabView = require('react-native-scrollable-tab-view');
+
+var _reactNativeScrollableTabView2 = babelHelpers.interopRequireDefault(_reactNativeScrollableTabView);
+
+var Cart = function (_React$Component) {
+    babelHelpers.inherits(Cart, _React$Component);
+
+    function Cart(props) {
+        babelHelpers.classCallCheck(this, Cart);
+        return babelHelpers.possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this, props));
+    }
+
+    babelHelpers.createClass(Cart, [{
+        key: '_pay',
+        value: function _pay() {
+            var _this2 = this;
+
+            if (!this.props.screenProps.user) return _reactNative.Alert.alert('提示', '未登录，请先登录', [{ text: '确定', onPress: function onPress() {
+                    return console.log('OK Pressed');
+                } }], { cancelable: false });
+            if (!this.state.data.addrInfo) return _reactNative.Alert.alert('提示', '未添加收货地址', [{ text: '确定', onPress: function onPress() {
+                    return console.log('OK Pressed');
+                } }], { cancelable: false });
+
+            var url = "http://118.178.224.224/appsrv/callRequestAction.action?pinfoIds=" + this.props.screenProps.user.pinfoId + '&ordIds=' + this.state.orddetData[0]['ordIds'] + '&ordCd=' + this.state.data.ordCd;
+            fetch(url).then(function (response) {
+                return response.json();
+            }).then(function (responseJson) {
+                if (responseJson.result == "fail") {
+                    _reactNative.Alert.alert('订单支付失败，请稍后重试');
+                } else if (responseJson.result == "success") {
+
+                    var str = "timestamp=2017-08-07+22%3A00%3A01&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.02%22%2C%22subject%22%3A%22%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95%22%2C%22body%22%3A%22%E6%88%91%E7%9A%84%E8%AE%A2%E5%8D%95%E5%86%85%E5%AE%B9%22%2C%22out_trade_no%22%3A%2220170725002%22%7D&sign_type=RSA2&charset=utf-8&method=alipay.trade.app.pay&app_id=2017072007829531&version=1.0&sign=WkrvzHUkqBTtL0HvMkn9Mhk3JFtnINtxm8efSEJbaOWANQY5tD6KCQeR5SkMgEX7JGX5ZERmLJdnG23JPMKAAksJvPYbnwWJyvWfdkpWlwI%2FCkHiFMooYYlxx60MFcJinpH7vI4fNy6b96JmKU8FZFErOWykk2kHeS9HJVokhZRcaF%2BZbJ2lYUxMQO6Y%2BLVE0WpGeB5fpwC%2BFI%2FAsCrUyr9yobUU7X2%2FbLMJpuWaMEKNR88bHkElYk9VoSKm%2BVjSXf1N9oFsgBBHjVSk2gYhvV%2Fpp288hdC2Sg%2FCyfLLnSjH3Am5DCvajgZ97lczbJKD7puEkQPWjjwFA%2FgqSIDyLQ%3D%3D";
+
+                    var result = "";
+                    _reactNative.NativeModules.AlipayModule.pay(responseJson.msg).then(function (resultStatus) {
+
+                        console.log(JSON.stringify(resultStatus));
+                        _this2.setState({
+                            payResult: resultStatus
+                        });
+
+                        switch (JSON.stringify(resultStatus)) {
+                            case "9000":
+                                result = "支付成功";
+
+                                break;
+                            case "8000":
+                                result = '支付结果未知,请查询订单状态';
+                                break;
+                            case "4000":
+                                result = '订单支付失败';
+                                break;
+                            case "5000":
+                                result = '重复请求';
+                                break;
+                            case "6001":
+                                result = '用户中途取消';
+                                break;
+                            case "6002":
+                                result = '网络连接出错';
+                                break;
+                            case "6004":
+                                result = '支付结果未知,请查询订单状态';
+                                break;
+                            default:
+                                result = '其他失败原因';
+                                break;
+                        }
+
+                        _this2.props.navigation.navigate("PayResult", { result: result });
+                    }).catch(function (err) {
+                        console.log(JSON.stringify(err));
+                        result = '支付参数错误';
+                        _this2.props.navigation.navigate("PayResult", { result: result });
+                    });
+                }
+            }).catch(function (err) {
+                _reactNative.Alert.alert("请求失败");
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props$navigation = this.props.navigation,
+                goBack = _props$navigation.goBack,
+                state = _props$navigation.state;
+
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 125
+                    }
+                },
+                _react2.default.createElement(_NavBar2.default, {
+                    title: "我的订单",
+                    StatusBarColor: "#fff",
+                    navBarbgColor: "#fff",
+                    barStyle: 'dark-content',
+                    titleStyle: { color: _StyleConfig2.default.colors.blackColor },
+                    iconStyle: { tintColor: _StyleConfig2.default.colors.B6Color },
+
+                    navBarLeft: true,
+                    navBarLeftAction: function navBarLeftAction() {
+                        return goBack();
+                    },
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 126
+                    }
+                }),
+                _react2.default.createElement(
+                    _reactNativeScrollableTabView2.default,
+                    {
+                        tabBarActiveTextColor: _StyleConfig2.default.colors.mainColor,
+                        tabBarInactiveTextColor: _StyleConfig2.default.colors.blackColor,
+                        initialPage: state.params.initialPage ? state.params.initialPage : 0,
+                        renderTabBar: function renderTabBar() {
+                            return _react2.default.createElement(_reactNativeScrollableTabView.DefaultTabBar, { backgroundColor: '#fff', __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 144
+                                }
+                            });
+                        },
+                        tabBarUnderlineStyle: { backgroundColor: _StyleConfig2.default.colors.mainColor, height: 2 },
+                        tabBarTextStyle: { fontWeight: 'normal' },
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 140
+                        }
+                    },
+                    _react2.default.createElement(List, { tabLabel: '\u5168\u90E8', navigation: this.props.navigation, urlType: 'A', type: 'All', pinfoId: this.props.screenProps.user.pinfoId, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 148
+                        }
+                    }),
+                    _react2.default.createElement(List, { tabLabel: '\u5F85\u4ED8\u6B3E', navigation: this.props.navigation, urlType: 'N', type: 'DFk', pinfoId: this.props.screenProps.user.pinfoId, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 149
+                        }
+                    }),
+                    _react2.default.createElement(List, { tabLabel: '\u5F85\u53D1\u8D27', navigation: this.props.navigation, urlType: 'Z', type: 'DFh', pinfoId: this.props.screenProps.user.pinfoId, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 150
+                        }
+                    }),
+                    _react2.default.createElement(List, { tabLabel: '\u5F85\u8BC4\u4EF7', navigation: this.props.navigation, urlType: 'P', type: 'DPj', pinfoId: this.props.screenProps.user.pinfoId, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 151
+                        }
+                    }),
+                    _react2.default.createElement(List, { tabLabel: '\u9884\u5B9A', navigation: this.props.navigation, urlType: 'Y', type: 'Yd', pinfoId: this.props.screenProps.user.pinfoId, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 152
+                        }
+                    })
+                )
+            );
+        }
+    }]);
+    return Cart;
+}(_react2.default.Component);
+
+exports.default = Cart;
+
+var List = function (_React$Component2) {
+    babelHelpers.inherits(List, _React$Component2);
+
+    function List(props) {
+        babelHelpers.classCallCheck(this, List);
+
+        var _this3 = babelHelpers.possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+
+        _this3.state = {
+            list: [],
+            listLength: 0,
+            isLoading: true,
+            msg: "加载中..."
+        };
+
+        return _this3;
+    }
+
+    babelHelpers.createClass(List, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this4 = this;
+
+            fetch(_config2.default.MYORDER + this.props.pinfoId + '&orderType=' + this.props.urlType).then(function (response) {
+                return response.json();
+            }).then(function (responseJson) {
+                if (responseJson.result == "success") {
+                    _this4.setState({
+                        list: responseJson.data,
+                        isLoading: false,
+                        listLength: responseJson.data.length
+                    });
+                } else {
+                    _this4.setState({
+                        msg: "暂无数据",
+                        isLoading: true
+                    });
+                }
+            }).catch(function (e) {
+                console.log(e);
+            });
+        }
+    }, {
+        key: 'removeOrder',
+        value: function removeOrder(ordIds, pIndex) {
+            var _this5 = this;
+
+            var list = this.state.list;
+
+            _reactNative.Alert.alert('', '取消订单：' + list[pIndex]['ordCd'], [{ text: '取消', onPress: function onPress() {
+                    return console.log('Cancel Pressed');
+                }, style: 'cancel' }, {
+                text: '确定', onPress: function onPress() {
+
+                    fetch(_config2.default.REMOVEORDER + _this5.props.pinfoId + '' + '&ordIds=' + ordIds).then(function (response) {
+                        return response.json();
+                    }).then(function (responseJson) {
+                        if (responseJson.result == "success") {
+                            _lodash2.default.pullAt(list, pIndex);
+                            _this5.setState({
+                                list: list,
+                                listLength: list.length
+                            });
+                        }
+                    });
+                }
+
+            }], { cancelable: false });
+        }
+    }, {
+        key: '_renderItem',
+        value: function _renderItem(item, index) {
+
+            return _react2.default.createElement(TabContent, { pIndex: index, removeOrder: this.removeOrder.bind(this), navigation: this.props.navigation, pinfoId: this.props.pinfoId, type: this.props.type, item: item, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 245
+                }
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this6 = this;
+
+            console.log(this.state.listLength);
+            return !this.state.isLoading ? _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 249
+                    }
+                },
+                this.state.listLength > 0 ? _react2.default.createElement(_reactNative.FlatList, {
+                    horizontal: false,
+                    data: this.state.list,
+                    extraData: this.state,
+                    renderItem: function renderItem(_ref) {
+                        var item = _ref.item,
+                            index = _ref.index;
+                        return _this6._renderItem(item, index);
+                    },
+                    keyExtractor: function keyExtractor(item, index) {
+                        return index;
+                    },
+                    __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 250
+                    }
+                }) : _react2.default.createElement(_Loading2.default, { msg: "暂无数据", __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 256
+                    }
+                })
+            ) : _react2.default.createElement(_Loading2.default, { msg: this.state.msg, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 257
+                }
+            });
+        }
+    }]);
+    return List;
+}(_react2.default.Component);
+
+var TabContent = function (_React$Component3) {
+    babelHelpers.inherits(TabContent, _React$Component3);
+
+    function TabContent(props) {
+        babelHelpers.classCallCheck(this, TabContent);
+        return babelHelpers.possibleConstructorReturn(this, (TabContent.__proto__ || Object.getPrototypeOf(TabContent)).call(this, props));
+    }
+
+    babelHelpers.createClass(TabContent, [{
+        key: 'renderBottom',
+        value: function renderBottom(type) {
+            switch (type) {
+                case "All":
+                    return this.renderAll();
+                    break;
+                case "DFk":
+                    return this.renderDFk();
+                    break;
+                case "DFh":
+                    return this.renderDFh();
+                    break;
+                case "DPj":
+                    return this.renderDPj();
+
+                    break;
+            }
+        }
+    }, {
+        key: 'renderGoodsItem',
+        value: function renderGoodsItem(data) {
+            var _this8 = this;
+
+            var list = [];
+            data.map(function (item, index) {
+                list.push(_react2.default.createElement(
+                    _reactNative.TouchableOpacity,
+                    {
+                        activeOpacity: 1,
+                        onPress: _lodash2.default.throttle(function () {
+                            return _this8.props.navigation.navigate("Details", { id: item.prdIds });
+                        }, 1000, {
+
+                            'trailing': false
+                        }), key: index, style: { flexDirection: 'row', paddingVertical: 15, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 356
+                        }
+                    },
+                    _react2.default.createElement(_reactNative.Image, {
+
+                        style: { width: 162 / 2, height: 162 / 2 }, source: { uri: _config2.default.BASEURL + item.prdUri }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 362
+                        }
+                    }),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { marginLeft: 10, flex: 1, justifyContent: 'center' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 365
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 366
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 367
+                                    }
+                                },
+                                item.prdName
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 368
+                                    }
+                                },
+                                'x',
+                                item.orddetNums
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flexDirection: 'row', justifyContent: 'space-between', marginVertical: 5 }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 370
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { flex: 1, marginLeft: 3, fontSize: _StyleConfig2.default.fontSize.size_12, color: _StyleConfig2.default.colors.hColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 371
+                                    }
+                                },
+                                item.prdText
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { fontSize: _StyleConfig2.default.fontSize.size_12, color: _StyleConfig2.default.colors.mainColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 372
+                                    }
+                                },
+                                '\uFFE5',
+                                item.orddetZkheji
+                            )
+                        )
+                    )
+                ));
+            });
+            return list;
+        }
+    }, {
+        key: 'sumRmb',
+        value: function sumRmb(data) {
+            var sum = 0;
+            data.map(function (item, index) {
+                sum += Number(item.orddetZkheji) * Number(item.orddetNums);
+            });
+            return sum;
+        }
+    }, {
+        key: 'renderYD',
+        value: function renderYD(item) {
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 388
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { marginTop: 10, backgroundColor: '#fff', paddingHorizontal: 15, justifyContent: 'center' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 389
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 45, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 390
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 391
+                                }
+                            },
+                            '\u9884\u5B9A\u7F16\u53F7\uFF1A',
+                            item.ordCd
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            {
+                                activeOpacity: 1,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 392
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { color: _StyleConfig2.default.colors.mainColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 396
+                                    }
+                                },
+                                '\u53D6\u6D88\u9884\u8BA2'
+                            )
+                        )
+                    ),
+                    this.renderGoodsItem(item.detOrdData),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { height: 45, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 401
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 402
+                                }
+                            },
+                            '\u4ED8\u6B3E\u91D1\u989D\uFF1A\uFFE5',
+                            this.sumRmb(item.detOrdData)
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            { activeOpacity: 1,
+                                style: { padding: 5, flexDirection: 'row', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: _StyleConfig2.default.colors.mainColor },
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 415
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13 }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 418
+                                    }
+                                },
+                                '\u7ACB\u5373\u4E0B\u5355'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'renderDPJ',
+        value: function renderDPJ(item) {
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 440
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { marginTop: 10, backgroundColor: '#fff', paddingHorizontal: 15, justifyContent: 'center' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 441
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 45, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 442
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 443
+                                }
+                            },
+                            '\u8BA2\u5355\u7F16\u53F7\uFF1A',
+                            item.ordCd
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            { activeOpacity: 1,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 444
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { color: _StyleConfig2.default.colors.mainColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 447
+                                    }
+                                },
+                                '\u4EA4\u6613\u6210\u529F'
+                            )
+                        )
+                    ),
+                    this.renderGoodsItem(item.detOrdData),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { height: 45, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 452
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 453
+                                }
+                            },
+                            '\u4ED8\u6B3E\u91D1\u989D\uFF1A\uFFE5',
+                            item.ordZfsumm
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flexDirection: 'row' }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 455
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                { activeOpacity: 1,
+                                    style: { paddingHorizontal: 10, marginHorizontal: 10, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: _StyleConfig2.default.colors.lineColor },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 456
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 459
+                                        }
+                                    },
+                                    '\u4EA4\u6613\u6210\u529F'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                { activeOpacity: 1,
+                                    style: { paddingHorizontal: 10, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: _StyleConfig2.default.colors.lineColor },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 461
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 464
+                                        }
+                                    },
+                                    '\u7ACB\u5373\u8BC4\u4EF7'
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'renderDFH',
+        value: function renderDFH(item) {
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 472
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { marginTop: 10, backgroundColor: '#fff', paddingHorizontal: 15, justifyContent: 'center' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 473
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 45, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 474
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 475
+                                }
+                            },
+                            '\u8BA2\u5355\u7F16\u53F7\uFF1A',
+                            item.ordCd
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            { activeOpacity: 1,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 476
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { color: _StyleConfig2.default.colors.mainColor }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 479
+                                    }
+                                },
+                                '\u5DF2\u4ED8\u6B3E'
+                            )
+                        )
+                    ),
+                    this.renderGoodsItem(item.detOrdData),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { height: 45, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 484
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 485
+                                }
+                            },
+                            '\u4ED8\u6B3E\u91D1\u989D\uFF1A\uFFE5',
+                            item.ordZfsumm
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.View,
+                            { style: { flexDirection: 'row' }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 487
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                { activeOpacity: 1,
+                                    style: { paddingHorizontal: 10, marginHorizontal: 10, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: _StyleConfig2.default.colors.lineColor },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 488
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 491
+                                        }
+                                    },
+                                    '\u5DF2\u4ED8\u6B3E'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                { activeOpacity: 1,
+                                    style: { paddingHorizontal: 10, paddingVertical: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: _StyleConfig2.default.colors.lineColor },
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 493
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 496
+                                        }
+                                    },
+                                    '\u7B49\u5F85\u53D1\u8D27'
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'toOrderAndD',
+        value: function toOrderAndD(ordIds, ordCd) {
+
+            return this.props.navigation.navigate("Order", { ordIds: ordIds, ordCd: ordCd, NoCreacteOrder: true });
+        }
+    }, {
+        key: 'renderDFK',
+        value: function renderDFK(item) {
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1 }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 510
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { marginTop: 10, backgroundColor: '#fff', paddingHorizontal: 15, justifyContent: 'center' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 511
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 45, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 512
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            {
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 513
+                                }
+                            },
+                            '\u8BA2\u5355\u7F16\u53F7\uFF1A',
+                            item.ordCd
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            { activeOpacity: 1,
+                                onPress: this.props.removeOrder.bind(this, item.ordIds, this.props.pIndex),
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 514
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                {
+                                    __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 517
+                                    }
+                                },
+                                '\u53D6\u6D88\u8BA2\u5355'
+                            )
+                        )
+                    ),
+                    this.renderGoodsItem(item.detOrdData),
+                    _react2.default.createElement(
+                        _reactNative.View,
+                        { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', height: 45, borderBottomColor: _StyleConfig2.default.colors.lineColor, borderBottomWidth: 1 }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 522
+                            }
+                        },
+                        _react2.default.createElement(
+                            _reactNative.Text,
+                            { style: { fontSize: _StyleConfig2.default.fontSize.size_14, color: _StyleConfig2.default.colors.blackColor }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 523
+                                }
+                            },
+                            '\u5E94\u4ED8\uFF1A\uFFE5',
+                            this.sumRmb(item.detOrdData)
+                        ),
+                        _react2.default.createElement(
+                            _reactNative.TouchableOpacity,
+                            { activeOpacity: 1,
+                                onPress: _lodash2.default.throttle(this.toOrderAndD.bind(this, item.ordIds, item.ordCd), 1000, {
+
+                                    'trailing': false
+                                }),
+                                style: { padding: 5, flexDirection: 'row', borderRadius: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: _StyleConfig2.default.colors.mainColor },
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 525
+                                }
+                            },
+                            _react2.default.createElement(
+                                _reactNative.Text,
+                                { style: { color: '#fff', fontSize: _StyleConfig2.default.fontSize.size_13 }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 532
+                                    }
+                                },
+                                '\u7ACB\u5373\u4ED8\u6B3E'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }, {
+        key: 'renderM',
+        value: function renderM(item) {
+            switch (item.ordStatus) {
+                case "N":
+                    return this.renderDFK(item);break;
+                case "Z":
+                    return this.renderDFH(item);break;
+                case "S":
+                    return this.renderDPJ(item);break;
+                case "Y":
+                    return this.renderYD(item);break;
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1, flexDirection: 'column' }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 569
+                    }
+                },
+                this.renderM(this.props.item)
+            );
+        }
+    }]);
+    return TabContent;
+}(_react2.default.Component);

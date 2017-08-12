@@ -11,7 +11,7 @@ import {
     StatusBar,
     TextInput
 } from 'react-native';
-const STATUS_BAR_HEIGHT=30;
+const STATUS_BAR_HEIGHT=20;
 import _ from 'lodash';
 import  StyleConfig  from '../base/StyleConfig'
 const {width, height} = Dimensions.get('window');
@@ -32,13 +32,14 @@ export default class HomeHeader extends React.Component {
   }
     render(){
         return(
-            <View style={{flexDirection:'row',alignItems:'center',paddingHorizontal:10,height:50,backgroundColor:StyleConfig.colors.mainColor}}>
-                    <StatusBar
+            <View style={{paddingTop:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0,flexDirection:'row',alignItems:'center',paddingHorizontal:10,backgroundColor:StyleConfig.colors.mainColor}}>
+          <StatusBar
         backgroundColor={StyleConfig.colors.mainColor}
         barStyle="light-content"
-        style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+       style={{paddingTop:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
            /> 
-           <TouchableOpacity
+            <View style={{flex:1,flexDirection:'row',alignItems:'center',height:50}}>
+            <TouchableOpacity
             activeOpacity={1}
              onPress={this.props.navBarLeftAction}
              style={{marginRight:20}}
@@ -75,6 +76,7 @@ export default class HomeHeader extends React.Component {
                    <Image style={{tintColor:StyleConfig.colors.mainColor,height:20,width:20}} source={require('../static/images/search.png')}/>
                    </TouchableOpacity>
                 </View> 
+            </View>
             </View>
         )
     }

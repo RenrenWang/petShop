@@ -1,0 +1,235 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/js/page/SetMeal.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _lodash = require('lodash');
+
+var _lodash2 = babelHelpers.interopRequireDefault(_lodash);
+
+var _StyleConfig = require('../base/StyleConfig');
+
+var _StyleConfig2 = babelHelpers.interopRequireDefault(_StyleConfig);
+
+var _MyListView = require('../components/MyListView');
+
+var _MyListView2 = babelHelpers.interopRequireDefault(_MyListView);
+
+var _config = require('../config');
+
+var _config2 = babelHelpers.interopRequireDefault(_config);
+
+var _HomeHeader = require('../components/HomeHeader');
+
+var _HomeHeader2 = babelHelpers.interopRequireDefault(_HomeHeader);
+
+var _LoadingImg = require('../components/LoadingImg');
+
+var _LoadingImg2 = babelHelpers.interopRequireDefault(_LoadingImg);
+
+var _Dimensions$get = _reactNative.Dimensions.get('window'),
+    width = _Dimensions$get.width,
+    height = _Dimensions$get.height;
+
+var SpecialOffer = function (_React$Component) {
+    babelHelpers.inherits(SpecialOffer, _React$Component);
+
+    function SpecialOffer(props) {
+        babelHelpers.classCallCheck(this, SpecialOffer);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (SpecialOffer.__proto__ || Object.getPrototypeOf(SpecialOffer)).call(this, props));
+
+        _this.state = {
+            meal: [],
+            swiperShow: false,
+
+            isLoading: true
+
+        };
+        return _this;
+    }
+
+    babelHelpers.createClass(SpecialOffer, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            fetch(_config2.default.MEAL).then(function (response) {
+                return response.json();
+            }).then(function (responseJson) {
+                if (responseJson.result == "success") {
+                    _this2.setState({
+                        meal: responseJson.mealData,
+
+                        isLoading: false
+                    });
+                    setTimeout(function () {
+                        _this2.setState({
+                            swiperShow: true
+                        });
+                    }, 0);
+                }
+            }).catch(function (err) {
+                _this2.setState({
+                    isLoading: true,
+                    error: "网络加载失败，请稍后重试"
+                });
+            });
+        }
+    }, {
+        key: 'renderSwiper',
+        value: function renderSwiper() {
+            var swiperHeight = 290;
+            if (this.state.swiperShow) {
+                return _react2.default.createElement(
+                    Swiper,
+                    {
+                        height: swiperHeight,
+
+                        activeDotColor: _StyleConfig2.default.colors.mainColor,
+                        horizontal: true,
+
+                        removeClippedSubviews: false,
+                        dotColor: 'rgba(255,255,255,0.3)',
+
+                        paginationStyle: {
+                            bottom: 6, left: 0, right: 10
+                        },
+
+                        __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 79
+                        }
+                    },
+                    this.state.banner.map(function (item, index) {
+
+                        return _react2.default.createElement(
+                            _reactNative.View,
+                            { style: {
+                                    width: width,
+                                    height: swiperHeight,
+                                    justifyContent: 'center',
+                                    backgroundColor: 'transparent'
+                                },
+                                key: index,
+                                __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 97
+                                }
+                            },
+                            _react2.default.createElement(_reactNative.Image, {
+                                resizeMode: 'cover',
+                                style: { width: width, height: swiperHeight },
+                                source: { uri: _config2.default.BASEURL + item.prdUri }, __source: {
+                                    fileName: _jsxFileName,
+                                    lineNumber: 106
+                                }
+                            })
+                        );
+                    })
+                );
+            } else {
+                return _react2.default.createElement(_reactNative.View, { style: { width: width, height: swiperHeight, backgroundColor: "#fff" }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 121
+                    }
+                });
+            }
+        }
+    }, {
+        key: '_onPress',
+        value: function _onPress(id, name) {
+            return this.props.navigation.navigate("SetMealD", { id: id });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this3 = this;
+
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1, flexDirection: 'column' }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 129
+                    }
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { flex: 1, flexDirection: 'column' }, __source: {
+                            fileName: _jsxFileName,
+                            lineNumber: 141
+                        }
+                    },
+                    _react2.default.createElement(
+                        _reactNative.ScrollView,
+                        {
+                            horizontal: false,
+                            style: { flex: 1, flexDirection: 'column' }, __source: {
+                                fileName: _jsxFileName,
+                                lineNumber: 143
+                            }
+                        },
+                        this.state.meal.map(function (item, index) {
+
+                            return _react2.default.createElement(
+                                _reactNative.TouchableOpacity,
+                                {
+                                    activeOpacity: 1,
+                                    onPress: _lodash2.default.throttle(_this3._onPress.bind(_this3, item.gcollIds), 1000, {
+
+                                        'trailing': false
+                                    }),
+                                    key: index, style: { flexDirection: 'column', backgroundColor: '#fff', marginTop: 10 }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 153
+                                    }
+                                },
+                                _react2.default.createElement(
+                                    _reactNative.Text,
+                                    { style: { color: _StyleConfig2.default.colors.mainColor, paddingLeft: 5, paddingVertical: 6, fontSize: _StyleConfig2.default.fontSize.size_18 }, __source: {
+                                            fileName: _jsxFileName,
+                                            lineNumber: 160
+                                        }
+                                    },
+                                    item.gcollName
+                                ),
+                                _react2.default.createElement(_reactNative.Image, {
+                                    resizeMethod: 'scale',
+                                    resizeMode: 'stretch',
+                                    style: { height: 300, width: width }, source: { uri: _config2.default.BASEURL + item.gcollImguri }, __source: {
+                                        fileName: _jsxFileName,
+                                        lineNumber: 161
+                                    }
+                                })
+                            );
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+    return SpecialOffer;
+}(_react2.default.Component);
+
+SpecialOffer.navigationOptions = {
+    tabBarLabel: '特价',
+
+    tabBarIcon: function tabBarIcon(_ref) {
+        var tintColor = _ref.tintColor;
+        return _react2.default.createElement(_reactNative.Image, {
+            source: require('../static/images/specialOffer.png'),
+            style: [{ tintColor: tintColor }, _StyleConfig2.default.tabIcon],
+            __source: {
+                fileName: _jsxFileName,
+                lineNumber: 26
+            }
+        });
+    }
+};
+exports.default = SpecialOffer;

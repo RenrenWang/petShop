@@ -2,7 +2,10 @@ package com.petshop;
 
 import android.app.Application;
 
+import com.cboy.rn.splashscreen.SplashScreen;
 import com.facebook.react.ReactApplication;
+import com.yunpeng.alipay.AlipayPackage;
+import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +25,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),new AlipayPackage(),new PlatformPackage()
+          new MainReactPackage(),
+            new AlipayPackage(),
+            new ClearCachePackage(),new PlatformPackage()
       );
     }
   };
@@ -34,7 +39,10 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+
     super.onCreate();
+
     SoLoader.init(this, /* native exopackage */ false);
+
   }
 }

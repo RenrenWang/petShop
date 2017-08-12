@@ -1,0 +1,318 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/js/page/Home.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _lodash = require('lodash');
+
+var _lodash2 = babelHelpers.interopRequireDefault(_lodash);
+
+var _StyleConfig = require('../base/StyleConfig');
+
+var _StyleConfig2 = babelHelpers.interopRequireDefault(_StyleConfig);
+
+var _HomeHeader = require('../components/HomeHeader');
+
+var _HomeHeader2 = babelHelpers.interopRequireDefault(_HomeHeader);
+
+var _GridList = require('../components/GridList');
+
+var _GridList2 = babelHelpers.interopRequireDefault(_GridList);
+
+var _SetTimeItem = require('../components/SetTimeItem');
+
+var _SetTimeItem2 = babelHelpers.interopRequireDefault(_SetTimeItem);
+
+var _reactNativeSwiper = require('react-native-swiper');
+
+var _reactNativeSwiper2 = babelHelpers.interopRequireDefault(_reactNativeSwiper);
+
+var _MyListView = require('../components/MyListView');
+
+var _MyListView2 = babelHelpers.interopRequireDefault(_MyListView);
+
+var _config = require('../config');
+
+var _config2 = babelHelpers.interopRequireDefault(_config);
+
+var _Timing = require('../components/Timing');
+
+var _Timing2 = babelHelpers.interopRequireDefault(_Timing);
+
+var _Dimensions$get = _reactNative.Dimensions.get('window'),
+    width = _Dimensions$get.width,
+    height = _Dimensions$get.height;
+
+var kindList = [{ imgUrl: require('../static/images/kind_1.png'), name: "宠物", classId: 'CW', routerName: "Classify" }, { imgUrl: require('../static/images/kind_2.png'), name: "主粮", classId: 'ZL', routerName: "Classify" }, { imgUrl: require('../static/images/kind_3.png'), name: "零食", classId: 'LY', routerName: "Classify" }, { imgUrl: require('../static/images/kind_4.png'), name: "日用品", classId: 'YP', routerName: "Classify" }, { imgUrl: require('../static/images/kind_5.png'), name: "套餐", classId: 'TC', routerName: "SetMeal" }];
+
+var Home = function (_React$Component) {
+  babelHelpers.inherits(Home, _React$Component);
+
+  function Home(props) {
+    babelHelpers.classCallCheck(this, Home);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+
+    _this.state = {
+      swiperShow: false,
+      banner: [],
+      setTimeGoods: [],
+      endTime: new Date().getTime(),
+      searchStr: ""
+    };
+
+    return _this;
+  }
+
+  babelHelpers.createClass(Home, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      fetch(_config2.default.HOMEGOODS).then(function (response) {
+        return response.json();
+      }).then(function (responseJson) {
+        if (responseJson.result == "success") {
+
+          _this2.setState({
+            banner: responseJson.lbData,
+            setTimeGoods: responseJson.xlData,
+            endTime: responseJson.xlData.length > 0 ? responseJson.xlData[0]['endDate'] : new Date().getTime()
+          });
+          setTimeout(function () {
+            _this2.setState({
+              swiperShow: true
+
+            });
+          }, 0);
+        }
+      });
+    }
+  }, {
+    key: 'renderSwiper',
+    value: function renderSwiper() {
+      var _this3 = this;
+
+      var swiperHeight = 150;
+      if (this.state.swiperShow) {
+        return _react2.default.createElement(
+          _reactNativeSwiper2.default,
+          {
+            height: swiperHeight,
+
+            activeDotColor: _StyleConfig2.default.colors.mainColor,
+            horizontal: true,
+
+            removeClippedSubviews: false,
+            dotColor: 'rgba(255,255,255,0.3)',
+            dotStyle: { height: 6, width: 6 },
+            activeDotStyle: { height: 6, width: 6 },
+            paginationStyle: {
+              bottom: 5
+
+            },
+            loop: true,
+            autoplay: true,
+
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 91
+            }
+          },
+          this.state.banner.map(function (item, index) {
+
+            return _react2.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                activeOpacity: 1,
+                onPress: _lodash2.default.throttle(function () {
+                  return _this3.props.navigation.navigate("Details", { id: item.prdIds });
+                }, 1000, {
+
+                  'trailing': false
+                }), style: {
+                  width: width,
+                  height: swiperHeight,
+                  justifyContent: 'center',
+                  backgroundColor: 'transparent'
+                },
+                key: index,
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 113
+                }
+              },
+              _react2.default.createElement(_reactNative.Image, {
+                resizeMethod: 'scale',
+                resizeMode: 'stretch',
+                style: { width: width, height: swiperHeight },
+                source: { uri: _config2.default.BASEURL + item.prdNuri },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 127
+                }
+              })
+            );
+          })
+        );
+      } else {
+        return _react2.default.createElement(_reactNative.View, { style: { width: width, height: swiperHeight, backgroundColor: "#fff" }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 152
+          }
+        });
+      }
+    }
+  }, {
+    key: 'renderTime',
+    value: function renderTime() {
+      if (this.state.swiperShow) {
+        return _react2.default.createElement(_Timing2.default, { endTime: this.state.endTime, mLeft: 15, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 156
+          }
+        });
+      } else {
+        return null;
+      }
+    }
+  }, {
+    key: '_renderHeader',
+    value: function _renderHeader() {
+      var _this4 = this;
+
+      return _react2.default.createElement(
+        _reactNative.View,
+        {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 162
+          }
+        },
+        this.renderSwiper(),
+        _react2.default.createElement(_GridList2.default, { key: 'kind', gridList: kindList, showText: true, navigation: this.props.navigation, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 165
+          }
+        }),
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: { flex: 1, flexDirection: 'column', marginTop: 10, backgroundColor: '#fff' }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 166
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.View,
+            { style: { paddingHorizontal: 10, height: 40, alignItems: 'center', flexDirection: 'row' }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 167
+              }
+            },
+            _react2.default.createElement(
+              _reactNative.Text,
+              { style: { paddingLeft: 10, borderLeftWidth: 3, borderColor: _StyleConfig2.default.colors.mainColor, color: _StyleConfig2.default.colors.blackColor, fontSize: _StyleConfig2.default.fontSize.size_16 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 168
+                }
+              },
+              '\u827E\u5BA0\u9650\u65F6\u8D2D'
+            ),
+            this.renderTime()
+          ),
+          this.state.setTimeGoods.map(function (item, index) {
+            if (index == 0) {
+
+              return _react2.default.createElement(_SetTimeItem2.default, { item: item, key: index, isHome: true, navigation: _this4.props.navigation, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 175
+                }
+              });
+            }
+          })
+        ),
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: { marginTop: 10, height: 40, justifyContent: 'center', flexDirection: 'column', paddingHorizontal: 10, backgroundColor: '#fff' }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 184
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.Text,
+            { style: { paddingLeft: 10, borderLeftWidth: 3, borderColor: _StyleConfig2.default.colors.mainColor, color: _StyleConfig2.default.colors.blackColor, fontSize: _StyleConfig2.default.fontSize.size_16 }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 185
+              }
+            },
+            '\u827E\u5BA0\u4F18\u9009'
+          )
+        )
+      );
+    }
+  }, {
+    key: 'chageKeyCode',
+    value: function chageKeyCode(KeyCode) {
+      this.setState({
+        searchStr: KeyCode
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactNative.View,
+        { style: { flex: 1, flexDirection: 'column' }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 198
+          }
+        },
+        _react2.default.createElement(_HomeHeader2.default, { navigation: this.props.navigation, chageKeyCode: this.chageKeyCode.bind(this), __source: {
+            fileName: _jsxFileName,
+            lineNumber: 199
+          }
+        }),
+        _react2.default.createElement(_MyListView2.default, {
+          swipeEnabled: true,
+
+          animationEnabled: true,
+          removeClippedSubviews: false,
+          renderHeader: this._renderHeader.bind(this),
+          url: _config2.default.HOMEGOODS + "&prdName=" + (this.state.searchStr && this.state.searchStr != "" ? this.state.searchStr : ""),
+          navigation: this.props.navigation,
+          itemType: 2,
+          style: { flexWrap: 'wrap', alignItems: 'center', flexDirection: 'row' },
+
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 201
+          }
+        })
+      );
+    }
+  }]);
+  return Home;
+}(_react2.default.Component);
+
+Home.navigationOptions = {
+  tabBarLabel: '主页',
+
+  tabBarIcon: function tabBarIcon(_ref) {
+    var tintColor = _ref.tintColor;
+    return _react2.default.createElement(_reactNative.Image, {
+      source: require('../static/images/home.png'),
+      style: [{ tintColor: tintColor }, { height: 26, width: 26 }],
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 38
+      }
+    });
+  }
+};
+exports.default = Home;

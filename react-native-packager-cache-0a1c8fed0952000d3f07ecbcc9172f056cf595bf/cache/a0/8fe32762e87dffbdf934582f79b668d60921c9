@@ -1,0 +1,630 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Volumes/work/reactnative/petShop/js/page/Cart.js';
+
+var _react = require('react');
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+var _lodash = require('lodash');
+
+var _lodash2 = babelHelpers.interopRequireDefault(_lodash);
+
+var _StyleConfig = require('../base/StyleConfig');
+
+var _StyleConfig2 = babelHelpers.interopRequireDefault(_StyleConfig);
+
+var _NavBar = require('../components/NavBar');
+
+var _NavBar2 = babelHelpers.interopRequireDefault(_NavBar);
+
+var _ListTWoRow = require('../components/ListTWoRow');
+
+var _ListTWoRow2 = babelHelpers.interopRequireDefault(_ListTWoRow);
+
+var _MyListView = require('../components/MyListView');
+
+var _MyListView2 = babelHelpers.interopRequireDefault(_MyListView);
+
+var _rnSwipeOut = require('rn-swipe-out');
+
+var _rnSwipeOut2 = babelHelpers.interopRequireDefault(_rnSwipeOut);
+
+var _config = require('../config');
+
+var _config2 = babelHelpers.interopRequireDefault(_config);
+
+var _Dimensions$get = _reactNative.Dimensions.get('window'),
+    width = _Dimensions$get.width,
+    height = _Dimensions$get.height;
+
+var pi = _reactNative.PixelRatio.get();
+
+var Cart = function (_React$Component) {
+  babelHelpers.inherits(Cart, _React$Component);
+
+  function Cart(props) {
+    babelHelpers.classCallCheck(this, Cart);
+
+    var _this = babelHelpers.possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this, props));
+
+    _this.state = {
+
+      cheackAll: {
+        "prdName": "all",
+        "name": "全选",
+        "checked": false
+      },
+      list: []
+    };
+    return _this;
+  }
+
+  babelHelpers.createClass(Cart, [{
+    key: 'onClick',
+    value: function onClick(data, index) {
+      if (data.prdName && data.prdName == "all") {
+
+        var allItem = [];
+        this.state.list.map(function (item, index) {
+
+          item.checked = !data.checked;
+          console.log(item);
+          allItem.push(item);
+        });
+        var cheackAll = this.state.cheackAll;
+        cheackAll.checked = !data.checked;
+
+        this.setState({
+          list: allItem,
+          cheackAll: cheackAll
+        });
+      } else {
+        var allData = this.state.list;
+        var itemIndex = allData[index];
+        console.log(JSON.stringify(allData[index]['checked']));
+
+
+        allData[index]['checked'] = !allData[index]['checked'];
+        this.setState({
+          list: allData
+
+        });
+      }
+    }
+  }, {
+    key: 'renderCheckBox',
+    value: function renderCheckBox(data, index) {
+
+      return _react2.default.createElement(
+        _reactNative.TouchableOpacity,
+        {
+          activeOpacity: 1,
+          onPress: this.onClick.bind(this, data, index), style: { width: 66, alignItems: 'center', justifyContent: 'center' }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 103
+          }
+        },
+        data.checked ? _react2.default.createElement(_reactNative.Image, { source: require('../static/images/check.png'), style: { height: 18, width: 18 }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 105
+          }
+        }) : _react2.default.createElement(_reactNative.Image, { source: require('../static/images/unCheck.png'), style: { height: 18, width: 18 }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 105
+          }
+        })
+      );
+    }
+  }, {
+    key: 'addFavorite',
+    value: function addFavorite() {
+      alert("移动到收藏夹");
+    }
+  }, {
+    key: 'deleteItem',
+    value: function deleteItem(index) {
+      var _this2 = this;
+
+      var list = this.state.list;
+      _reactNative.Alert.alert('', '将商品“' + list[index]['prdName'] + '”从购物车移除', [{ text: '取消', onPress: function onPress() {
+          return console.log('Cancel Pressed');
+        }, style: 'cancel' }, {
+        text: '确定', onPress: function onPress() {
+
+          fetch(_config2.default.CARTSHOPING + _this2.props.screenProps.user.pinfoId + '&homeType=DEL' + '&prdIds=' + list[index]['prdIds']).then(function (response) {
+            return response.json();
+          }).then(function (responseJson) {
+            _lodash2.default.pullAt(list, index);
+            _this2.setState({
+              list: list
+            });
+          });
+        }
+
+      }], { cancelable: false });
+    }
+  }, {
+    key: 'setSwiperoutOption',
+    value: function setSwiperoutOption(activeOne, activeTwo) {
+      return [{
+        text: '删除',
+        style: {
+          backgroundColor: '#fc9d9a'
+        },
+        onPress: activeTwo
+      }];
+    }
+  }, {
+    key: 'renderCart',
+    value: function renderCart(data) {
+      var _this3 = this;
+
+      if (!this.state.list) return null;
+
+      var itemHeight = 162 / 2;
+      var items = [];
+
+      this.state.list.map(function (item, index) {
+
+        var activeOne = _this3.setSwiperoutOption(_this3.addFavorite.bind(_this3), _this3.deleteItem.bind(_this3, index));
+        items.push(_react2.default.createElement(
+          _rnSwipeOut2.default,
+          { onPress: _this3.onClick.bind(_this3, item, index), key: index, right: activeOne, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 173
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.TouchableOpacity,
+            {
+
+              activeOpacity: 1,
+              style: { flexDirection: 'row', alignItems: 'center' },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 174
+              }
+            },
+            _react2.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                activeOpacity: 1,
+                onPress: _this3.onClick.bind(_this3, item, index), style: { width: 66, alignItems: 'center', justifyContent: 'center' }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 180
+                }
+              },
+              item.checked ? _react2.default.createElement(_reactNative.Image, { source: require('../static/images/check.png'), style: { height: 18, width: 18 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 182
+                }
+              }) : _react2.default.createElement(_reactNative.Image, { source: require('../static/images/unCheck.png'), style: { height: 18, width: 18 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 182
+                }
+              })
+            ),
+            _react2.default.createElement(
+              _reactNative.View,
+              { style: { paddingVertical: 10, flex: 1, alignItems: 'center', flexDirection: 'row', borderBottomWidth: 1, borderColor: _StyleConfig2.default.colors.lineColor }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 184
+                }
+              },
+              _react2.default.createElement(_reactNative.Image, {
+
+                style: { width: 162 / 2, height: 162 / 2 }, source: { uri: _config2.default.BASEURL + item.prdUri }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 186
+                }
+              }),
+              _react2.default.createElement(
+                _reactNative.View,
+                { style: { flex: 1, marginLeft: 8, paddingHorizontal: 5, flexDirection: 'column', justifyContent: 'space-between', height: itemHeight }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 189
+                  }
+                },
+                _react2.default.createElement(
+                  _reactNative.View,
+                  { style: { flexDirection: 'column' }, __source: {
+                      fileName: _jsxFileName,
+                      lineNumber: 190
+                    }
+                  },
+                  _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { flexDirection: 'row', justifyContent: 'space-between' }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 191
+                      }
+                    },
+                    _react2.default.createElement(
+                      _reactNative.Text,
+                      { numberOfLines: 1, style: { color: _StyleConfig2.default.colors.defaultFontColor, fontSize: _StyleConfig2.default.fontSize.size_16, marginRight: 3 }, __source: {
+                          fileName: _jsxFileName,
+                          lineNumber: 192
+                        }
+                      },
+                      item.prdName
+                    ),
+                    _react2.default.createElement(
+                      _reactNative.Text,
+                      { style: { color: _StyleConfig2.default.colors.hColor, fontSize: _StyleConfig2.default.fontSize.size_16 }, __source: {
+                          fileName: _jsxFileName,
+                          lineNumber: 193
+                        }
+                      },
+                      'x',
+                      item.prdNums
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  _reactNative.View,
+                  { style: { flex: 1, marginTop: 6, flexDirection: 'row', alignItems: 'center' }, __source: {
+                      fileName: _jsxFileName,
+                      lineNumber: 198
+                    }
+                  },
+                  _react2.default.createElement(
+                    _reactNative.Text,
+                    { style: { fontSize: _StyleConfig2.default.fontSize.size_18, color: _StyleConfig2.default.colors.defaultFontColor }, __source: {
+                        fileName: _jsxFileName,
+                        lineNumber: 200
+                      }
+                    },
+                    '\uFFE5',
+                    item.prdZkprice
+                  )
+                )
+              )
+            )
+          )
+        ));
+      });
+      return _react2.default.createElement(
+        _reactNative.View,
+        { style: { flexDirection: 'column', backgroundColor: '#fff' }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 214
+          }
+        },
+        items
+      );
+    }
+  }, {
+    key: 'sunRmb',
+    value: function sunRmb() {
+      var totality = 0;
+      this.state.list.map(function (item, indx) {
+        if (item.checked) {
+          totality += item.prdZkprice * item.prdNums;
+        }
+      });
+      return totality;
+    }
+  }, {
+    key: '_renderHeader',
+    value: function _renderHeader() {
+      return _react2.default.createElement(
+        _reactNative.View,
+        { style: { flexDirection: 'column', width: width, marginLeft: -5, backgroundColor: _StyleConfig2.default.colors.bgColor }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 230
+          }
+        },
+        this.state.list.length > 0 ? this.renderCart(this.state.data) : _react2.default.createElement(
+          _reactNative.View,
+          { style: { flexDirection: 'column', alignItems: 'center', height: height * 0.4, justifyContent: 'center', backgroundColor: _StyleConfig2.default.colors.bgColor }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 231
+            }
+          },
+          _react2.default.createElement(_reactNative.Image, { style: { height: 90, width: 93 }, source: require('../static/images/cartcatImg.png'), __source: {
+              fileName: _jsxFileName,
+              lineNumber: 232
+            }
+          }),
+          _react2.default.createElement(
+            _reactNative.Text,
+            { style: { textAlign: 'center', paddingVertical: 5, fontSize: _StyleConfig2.default.fontSize.size_14 }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 233
+              }
+            },
+            '\u4E3B\u4EBA\uFF0C\u611F\u89C9\u809A\u5B50\u7A7A\u7A7A\u7684'
+          )
+        ),
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: { height: 45, marginTop: 10, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 236
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.Text,
+            { style: { fontSize: _StyleConfig2.default.fontSize.size_16 }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 237
+              }
+            },
+            '\u731C\u4F60\u559C\u6B22'
+          )
+        )
+      );
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this4 = this;
+
+      if (this.props.screenProps.user) {
+
+        this.subscription = _reactNative.DeviceEventEmitter.addListener('cartChange', function () {
+          fetch(_config2.default.CARTSHOPING + _this4.props.screenProps.user.pinfoId).then(function (response) {
+            return response.json();
+          }).then(function (responseJson) {
+            if (responseJson.result == "success") {
+              var Clist = responseJson.data;
+              Clist.map(function (item, index) {
+                Clist[index]['checked'] = false;
+              });
+
+              _this4.setState({
+                list: Clist
+              });
+            }
+          });
+        });
+        fetch(_config2.default.CARTSHOPING + this.props.screenProps.user.pinfoId).then(function (response) {
+          return response.json();
+        }).then(function (responseJson) {
+          if (responseJson.result == "success") {
+            var Clist = responseJson.data;
+            Clist.map(function (item, index) {
+              Clist[index]['checked'] = false;
+            });
+
+            _this4.setState({
+              list: Clist
+            });
+          }
+        });
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (this.subscription) this.subscription.remove();
+    }
+  }, {
+    key: 'toOrder',
+    value: function toOrder() {
+      var prdIdsList = [];
+      var prdNumsList = [];
+      this.state.list.map(function (item, indx) {
+        if (item.checked) {
+          prdIdsList.push(item.prdIds);
+          prdNumsList.push(item.prdNums);
+        }
+      });
+
+      return this.props.navigation.navigate("Order", { "prdIdsList": prdIdsList, prdNumsList: prdNumsList, NoCreacteOrder: false });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this5 = this;
+
+      return this.props.screenProps.user ? _react2.default.createElement(
+        _reactNative.View,
+        { style: { flex: 1, flexDirection: 'column' }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 312
+          }
+        },
+        _react2.default.createElement(_NavBar2.default, {
+          title: "购物车",
+          navBarbgColor: _StyleConfig2.default.colors.mainColor,
+
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 313
+          }
+        }),
+        _react2.default.createElement(_MyListView2.default, {
+          swipeEnabled: true,
+          contentContainerStyle: { backgroundColor: '#fff', paddingHorizontal: 5, flexWrap: 'wrap', justifyContent: 'space-between', flexDirection: 'row' },
+          animationEnabled: true,
+          removeClippedSubviews: false,
+          renderHeader: this._renderHeader.bind(this),
+          url: _config2.default.CLIVE + this.props.screenProps.user.pinfoId,
+          navigation: this.props.navigation,
+          itemType: 3,
+          listItemBgColor: _StyleConfig2.default.colors.bgColor,
+          isReturnTop: false,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 331
+          }
+        }),
+        this.state.list.length > 0 ? _react2.default.createElement(
+          _reactNative.View,
+          { style: {
+              height: 50, justifyContent: 'space-between', flexDirection: 'row', borderTopWidth: 1, borderBottomWidth: 1,
+              borderColor: _StyleConfig2.default.colors.lineColor, backgroundColor: '#fff'
+            }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 343
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.View,
+            { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 347
+              }
+            },
+            this.renderCheckBox(this.state.cheackAll),
+            _react2.default.createElement(
+              _reactNative.Text,
+              { style: { color: _StyleConfig2.default.colors.hColor, fontSize: _StyleConfig2.default.fontSize.size_14, marginLeft: 0 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 349
+                }
+              },
+              '\u5168\u9009'
+            )
+          ),
+          _react2.default.createElement(
+            _reactNative.View,
+            { style: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 351
+              }
+            },
+            _react2.default.createElement(
+              _reactNative.Text,
+              { style: { color: _StyleConfig2.default.colors.mainColor, fontSize: _StyleConfig2.default.fontSize.size_14, marginRight: 15 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 352
+                }
+              },
+              '\uFFE5',
+              this.sunRmb()
+            ),
+            _react2.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                activeOpacity: 1,
+
+                onPress: _lodash2.default.throttle(this.toOrder.bind(this), 1000, {
+
+                  'trailing': false
+                }),
+                style: {
+                  height: 50,
+                  width: 100,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center', backgroundColor: this.sunRmb() > 0 ? _StyleConfig2.default.colors.mainColor : "#cfcfcf"
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 353
+                }
+              },
+              _react2.default.createElement(
+                _reactNative.Text,
+                {
+                  style: {
+                    textAlign: 'center',
+                    alignItems: 'center',
+
+                    fontSize: 14,
+                    color: _StyleConfig2.default.colors.B6Color, color: '#fff'
+                  },
+                  __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 368
+                  }
+                },
+                '\u4E0B\u5355'
+              )
+            )
+          )
+        ) : null
+      ) : _react2.default.createElement(
+        _reactNative.View,
+        { style: { flex: 1 }, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 380
+          }
+        },
+        _react2.default.createElement(_NavBar2.default, {
+          title: "购物车",
+          navBarbgColor: _StyleConfig2.default.colors.mainColor,
+
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 381
+          }
+        }),
+        _react2.default.createElement(
+          _reactNative.View,
+          { style: { flex: 1, backgroundColor: "rgba(0,0,0,0.3)",
+              justifyContent: 'center', alignItems: 'center' }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 386
+            }
+          },
+          _react2.default.createElement(
+            _reactNative.View,
+            { style: { height: width * 0.5, width: width * 0.8, backgroundColor: '#fff', borderRadius: 10, justifyContent: 'center', alignItems: 'center' }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 388
+              }
+            },
+            _react2.default.createElement(
+              _reactNative.Text,
+              { style: { marginVertical: 25, fontSize: _StyleConfig2.default.fontSize.size_16 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 389
+                }
+              },
+              '\u60A8\u8FD8\u672A\u767B\u5F55\uFF0C\u8BF7\u5148\u767B\u5F55'
+            ),
+            _react2.default.createElement(
+              _reactNative.TouchableOpacity,
+              {
+                activeOpacity: 0.8,
+                style: { borderRadius: 5, width: width * 0.6, backgroundColor: _StyleConfig2.default.colors.mainColor, height: 40, alignItems: 'center', justifyContent: 'center' },
+                onPress: function onPress() {
+                  return _this5.props.navigation.navigate("Login");
+                },
+                __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 390
+                }
+              },
+              _react2.default.createElement(
+                _reactNative.Text,
+                { style: { color: "#fff", fontSize: 16 }, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 395
+                  }
+                },
+                '\u767B\u5F55'
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+  return Cart;
+}(_react2.default.Component);
+
+Cart.navigationOptions = {
+  tabBarLabel: '购物车',
+
+  tabBarIcon: function tabBarIcon(_ref) {
+    var tintColor = _ref.tintColor;
+    return _react2.default.createElement(_reactNative.Image, {
+      source: require('../static/images/cart.png'),
+      style: { tintColor: tintColor, height: 26,
+        width: 26 },
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 32
+      }
+    });
+  }
+};
+exports.default = Cart;

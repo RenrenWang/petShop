@@ -184,7 +184,7 @@ export default class Classify extends React.Component {
                       }}>
                      <Text
                   style={{
-                     fontSize:StyleConfig.fontSize.size_16}}
+                     fontSize:StyleConfig.fontSize.size_14}}
                  >{item.title}</Text>
                  
                 </View>
@@ -306,7 +306,7 @@ export default class Classify extends React.Component {
                  onPress={this._filterItemActive.bind(this,index,item.subPrdType)}
                  style={[styles.filterItem,{flexDirection:'row'}]} key={item.id}>
 
-                    {item.subPrdType=="ALL"?<Image  style={{height:18,width:18,tintColor: StyleConfig.colors.B6Color, paddingVertical: 6}} source={item.icon}/>:<Text  style={[styles.filterItemFont, index == this.state.itemActive ? styles.filterItemFontActive : null]}>{item.name}</Text>}
+                    {item.subPrdType=="ALL"?<View style={{flexDirection:'row',alignItems:'center'}}><Text style={[styles.filterItemFont, index == this.state.itemActive ? styles.filterItemFontActive : null]}>筛选</Text><Image  style={{height:18,width:18,tintColor: StyleConfig.colors.B6Color, paddingVertical: 6}} source={item.icon}/></View>:<Text  style={[styles.filterItemFont, index == this.state.itemActive ? styles.filterItemFontActive : null]}>{item.name}</Text>}
                     {item.subPrdType=="C"?<View style={{flexDirection:'column',justifyContent:'center',marginLeft:5}}>
                         <Image style={{height:10,width:10,tintColor:this.state.orderBy=="A" ? "#000" : StyleConfig.colors.hColor}} source={require('../static/images/sTop.png')}/>
                         <Image  style={{height:10,width:10,tintColor:this.state.orderBy=="D" ? "#000" : StyleConfig.colors.hColor}} source={require('../static/images/sBottom.png')}/>

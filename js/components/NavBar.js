@@ -11,7 +11,7 @@ import {
    Platform,
    Share,Dimensions
 } from 'react-native';
-const STATUS_BAR_HEIGHT=30;
+const STATUS_BAR_HEIGHT=20;
 import  Config from '../config'
 import  StyleConfig  from '../base/StyleConfig'
 const {width,height} = Dimensions.get('window');
@@ -60,13 +60,15 @@ export default class Navbar extends Component {
   }
   render() {
     return (
- <View style={[styles.navBar,{backgroundColor:this.props.navBarbgColor?this.props.navBarbgColor:'#000'},this.props.navBarStyles?this.props.navBarStyles:null]}>    
+ <View style={{paddingTop:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0,backgroundColor:this.props.navBarbgColor?this.props.navBarbgColor:'#000'}}>    
+  
     <StatusBar
      backgroundColor={this.props.StatusBarColor?this.props.StatusBarColor:StyleConfig.colors.mainColor}
      barStyle={this.props.barStyle?this.props.barStyle:"light-content"}
-     style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+    
    /> 
-           {  this.props.navBarLeft?  
+          <View style={styles.navBar}> 
+          {  this.props.navBarLeft?  
               <View style={styles.navBarLeft} >
                  <TouchableOpacity onPress={()=>this.props.navBarLeftAction()}>{/**/}
                         <Image source={require('../static/images/arrow.png')} style={[styles.nabBaricon,styles.leftIcon,this.props.iconStyle?this.props.iconStyle:{}]}/>
@@ -93,6 +95,7 @@ export default class Navbar extends Component {
                           {/*{this.props.navBarRight}*/}
                </View>:null
             }
+          </View>
         </View>
     );
   }

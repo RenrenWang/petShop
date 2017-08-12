@@ -121,7 +121,7 @@ componentDidUpdate(prevProps, prevState){
      <View style={{flex:1,position:'relative'}}>
        
        {this.props.isReturnTopthis?this.returnTop():null} 
-     {/*//   {this.state.isLoading?<LoadingImg isModal={this.state.isLoading}/>:null}*/}
+   
         <ListView
           ref={(listView)=>this.listView=listView}
           initialListSize={8}
@@ -163,57 +163,71 @@ componentDidUpdate(prevProps, prevState){
        this.setState({
           isLoading:true
         }); 
+       console.log(this.props.url+'&pageno='+this.page);
       fetch(this.props.url+'&pageno='+this.page++)
-
-     .then((response) => response.json())
+      .then((response) => response.json())
       .then((responseJson) => {
-     
-        //responseJson.maxpage
-         if(responseJson.result=="fail"||(responseJson.data.length<=0&&responseJson.data)){
-           return  this.setState({
-              dataSource: this.ds.cloneWithRows(this._data),
-              
-              isFirst: false,
-               isLoading:false,
-              noDate:true,
-              footerText:this.state.isFirst?"暂无数据":"已加载全部数据",
-            });
-           
-         }
-            
-               
-          this._data = this._data.concat(responseJson.data);
-          this.setState({
-              dataSource: this.ds.cloneWithRows(this._data),
-              
-              isFirst: false,
-               isLoading:false,
-              noDate:responseJson.maxpage<this.page?true:false,
-              footerText: responseJson.maxpage<this.page?"已加载全部数据":"加载中...",
-              
-            });
-   
+
+        if(responseJson.result=="success"){
+          let data=[];
+          if(this.props.typeItem==="TC"){
+          
+            data=responseJson.mealData
+          
+          }else{
+           data=responseJson.data;
+          }
          
-        
-
-
-      })
-      .catch((error) => {
-      console.log(error);
-        // reject(error)
-         this._data = [];
+          console.log(JSON.stringify(data));
+          if(data.length<=0&&data){
+            return  this.setState({
+               dataSource: this.ds.cloneWithRows(this._data),
+               
+               isFirst: false,
+                isLoading:false,
+               noDate:true,
+               footerText:this.state.isFirst?"暂无数据":"已加载全部数据",
+             });
+            
+          }
+             
+                
+           this._data = this._data.concat(data);
+           this.setState({
+               dataSource: this.ds.cloneWithRows(this._data),
+               
+               isFirst: false,
+                isLoading:false,
+               noDate:responseJson.maxpage<this.page?true:false,
+               footerText: responseJson.maxpage<this.page?"已加载全部数据":"加载中...",
+               
+             });
+    
+        }else{
           this.setState({
-              dataSource: this.ds.cloneWithRows(this._data),
-              isFirst: false,
-              noDate:true,
-              footerText:"网络加载失败，请稍后重试...",
-              isLoading:false,
-              httpError:true
-            });
-      });
-   }
+          
+            
+            isFirst: false,
+             isLoading:false,
+            noDate:true,
+            footerText:this.state.isFirst?"暂无数据":"已加载全部数据",
+          });
+        }
+      }).catch((error) => {
+         
+           console.log(error);
+           this._data = [];
+            this.setState({
+                dataSource: this.ds.cloneWithRows(this._data),
+                isFirst: false,
+                noDate:true,
+                footerText:"网络加载失败，请稍后重试...",
+                isLoading:false,
+                httpError:true
+              });
+        });
+      }
   }
-  
   _renderSeparator (sectionID, rowID, adjacentRowHighlighted){
      return <View style={{ height: 1, backgroundColor: '#eeeeee'}} key={rowID} />;
   }
@@ -241,8 +255,8 @@ componentDidUpdate(prevProps, prevState){
     this.getData();
   }
   _renderRow(item,sectionID,rowId) {
- // alert(JSON.stringify(this.props.navigation));
- return <ListItem itemHeight={ITEMHEIGHT}  typeItem={this.props.typeItem?this.props.typeItem:null}   navigation={this.props.navigation} item={item} />
+
+return<ListItem itemHeight={ITEMHEIGHT}  typeItem={this.props.typeItem?this.props.typeItem:null}   navigation={this.props.navigation} item={item} />;
   }
   _renderRow_2(item,sectionID,rowId){
     

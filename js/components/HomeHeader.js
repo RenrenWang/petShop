@@ -36,13 +36,16 @@ _onPress(){
    }
     render(){
         return(
-            <View style={{flexDirection:'row',alignItems:'center',paddingHorizontal:10,height:50,backgroundColor:StyleConfig.colors.mainColor}}>
-                    <StatusBar
-        backgroundColor={StyleConfig.colors.mainColor}
-        barStyle="light-content"
-           translucent={false}
-        style={{height:Platform.OS==='ios'?STATUS_BAR_HEIGHT:0}}
+     
+        <View style={{paddingTop:Platform.OS==='ios'?20:0,backgroundColor:StyleConfig.colors.mainColor}}> 
+             <StatusBar
+                backgroundColor={StyleConfig.colors.mainColor}
+                barStyle="light-content"
+              
            /> 
+       
+            <View style={{flexDirection:'row',alignItems:'center',paddingHorizontal:10,height:50 }}>
+       
 
              <TextInput
                           
@@ -72,9 +75,10 @@ _onPress(){
                    activeOpacity={1}
                 
                    onPress={this.selectAction.bind(this)}>
-                  <Image style={{marginLeft:5,tintColor:'#fff',height:32,width:32}} source={require('../static/images/homeSearch.png')}/>
+                  <Image style={{marginLeft:5,tintColor:'#fff',height:28,width:28}} source={require('../static/images/homeSearch.png')}/>
                </TouchableOpacity>
             </View>
+        </View>
         )
     }
 }

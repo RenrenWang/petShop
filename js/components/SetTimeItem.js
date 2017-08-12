@@ -39,7 +39,7 @@ export default class SetTimeItem extends React.Component {
                          <Text numberOfLines={2} style={{textAlign:'left',fontSize:StyleConfig.fontSize.size_16,color:StyleConfig.colors.defaultFontColor}}>{data.prdName}</Text>
                          <View style={{flexDirection:'column',justifyContent:'space-between'}}>
                                 <View style={{flex:1,flexDirection:'row',justifyContent:'space-between'}}>
-                                    <Text style={{fontSize:StyleConfig.fontSize.size_18,color:StyleConfig.colors.mainColor,fontWeight:'600'}}>￥{data.prdZkprice}</Text>
+                                    <Text style={{fontSize:StyleConfig.fontSize.size_18,color:StyleConfig.colors.mainColor}}>￥{data.prdZkprice}</Text>
                                      <TouchableOpacity   
                                             activeOpacity={1}
                                             onPress={_.throttle(this._onPress.bind(this,data.prdIds),1000,{
