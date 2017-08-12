@@ -16,10 +16,12 @@ export default class SpecialOffer extends React.Component {
   static navigationOptions = {
     tabBarLabel: '特价',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../static/images/specialOffer.png')}
-          style={[{tintColor: tintColor},{height:26,width:26}]}
+   
+    tabBarIcon: ({ focused,tintColor }) => (
+      
+       <Image
+        source={focused?require('../static/images/specialOfferActive.png'):require('../static/images/specialOffer.png')}
+         style={{height:28,width:28}}
       />
     ),
   };

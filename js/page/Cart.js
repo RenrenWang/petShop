@@ -28,11 +28,12 @@ export default class Cart extends React.Component {
   static navigationOptions = {
     tabBarLabel: '购物车',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../static/images/cart.png')}
-     style={{tintColor: tintColor,   height:26,
-     width:26 }}
+   
+    tabBarIcon: ({ focused,tintColor }) => (
+      
+       <Image
+        source={ focused?require('../static/images/cartActive.png'):require('../static/images/cart.png')}
+         style={[{height:30,width:30}]}
       />
     ),
   };

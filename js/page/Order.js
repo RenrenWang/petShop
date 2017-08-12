@@ -121,8 +121,7 @@ export default class Order extends React.Component {
               switch (JSON.stringify(resultStatus)) {
                  case "9000":
                     result="支付成功";
-                   
-                   break;
+                  break;
                  case "8000":
                     result='支付结果未知,请查询订单状态';
                    break;

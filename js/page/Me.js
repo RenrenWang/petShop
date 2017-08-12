@@ -24,13 +24,14 @@ export default class Me extends React.Component {
   static navigationOptions = {
     tabBarLabel: '我的',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../static/images/me.png')}
-        style={{tintColor: tintColor, height:26,
-     width:26}}
+    tabBarIcon: ({ focused,tintColor }) => (
+      
+       <Image
+        source={ focused?require('../static/images/meActive.png'):require('../static/images/me.png')}
+         style={{height:30,width:30}}
       />
     ),
+  
   };
   constructor(props){
     super(props)

@@ -255,10 +255,10 @@ export default class ProductDetail extends React.Component {
       })
     }
      renderBottom(){
-        return( <View style={{backgroundColor:"#fff",flexDirection:'row',height:50,borderTopColor:StyleConfig.colors.lineColor,borderTopWidth:1}}>
+        return( <View style={{backgroundColor:"#fff",flexDirection:'row',justifyContent:'flex-end',height:50,borderTopColor:StyleConfig.colors.lineColor,borderTopWidth:1}}>
                  
                 
-                  <TouchableOpacity   
+                  {/* <TouchableOpacity   
                         activeOpacity={1}
                        // onPress={_.throttle(this._onPress.bind(this,data.prdIds),1000,{
 
@@ -285,11 +285,11 @@ export default class ProductDetail extends React.Component {
                     style={{ tintColor:StyleConfig.colors.hColor,  height:25,
                     width:25 }}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity   
                    activeOpacity={1}
                     onPress={()=>this.props.navigation.navigate("Cart")}
-                    style={{height:50,flex:1,alignItems:'center',justifyContent:'center',borderRightWidth:1,borderRightColor:StyleConfig.colors.lineColor}}
+                    style={{height:50,width:width/4,alignItems:'center',justifyContent:'center',borderLeftWidth:1,borderRightWidth:1,borderColor:StyleConfig.colors.lineColor}}
                     >
                     <Image
                    source={require('../static/images/cart.png')}
@@ -315,7 +315,7 @@ export default class ProductDetail extends React.Component {
 
                       'trailing': false
                     })}
-                    style={{height:50,width:width/4,backgroundColor:StyleConfig.colors.mainColor,alignItems:'center',justifyContent:'center'}}
+                    style={{height:51,width:width/4,backgroundColor:StyleConfig.colors.mainColor,alignItems:'center',justifyContent:'center'}}
                     >
                     <Text style={{color:"#fff",fontSize:StyleConfig.fontSize.size_14}}>立即购买</Text>
                 </TouchableOpacity>

@@ -90,8 +90,9 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
+  
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
         applicationId "com.petshop"

@@ -82,9 +82,9 @@ public class AlipayModule extends ReactContextBaseJavaModule {
                     msg.obj = resultStatus;
                     mHandler.sendMessage(msg);
                     if(Integer.valueOf(resultStatus) >= 8000){
-                        promise.resolve(Integer.valueOf(resultStatus));
+                        promise.resolve(resultStatus);
                     }else{
-                        promise.resolve(Integer.valueOf(resultStatus));
+                        promise.resolve(resultStatus);
                     }
                 } catch (Exception e) {
                     promise.reject(e);

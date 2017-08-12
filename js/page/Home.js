@@ -7,9 +7,11 @@ import {
     View,
     Text,
 Dimensions,
-TouchableOpacity
+TouchableOpacity,
+StatusBar
 } from 'react-native';
 import _ from 'lodash';
+import SplashScreen from 'react-native-splash-screen'
 import  StyleConfig  from '../base/StyleConfig'
 import HomeHeader from '../components/HomeHeader'
 import GridList  from '../components/GridList'
@@ -34,10 +36,11 @@ export default class Home extends React.Component {
   static navigationOptions = {
     tabBarLabel: '主页',
     // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../static/images/home.png')}
-         style={[{tintColor: tintColor},{height:26,width:26}]}
+    tabBarIcon: ({ focused,tintColor }) => (
+      
+       <Image
+        source={focused?require('../static/images/homeActive.png'):require('../static/images/home.png')}
+        style={{height:28,width:28}}
       />
     ),
   };
@@ -54,13 +57,15 @@ export default class Home extends React.Component {
   }
   
     componentDidMount() {
+
+        StatusBar.setHidden(false);
       fetch(Config.HOMEGOODS)
       .then((response) => response.json())
       .then((responseJson) => {
        
         //responseJson.maxpage
          if(responseJson.result=="success"){
-             
+            SplashScreen.hide();
              this.setState({
                 banner:responseJson.lbData,
                 setTimeGoods:responseJson.xlData,
