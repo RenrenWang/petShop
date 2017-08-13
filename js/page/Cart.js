@@ -186,7 +186,7 @@ export default class Cart extends React.Component {
             {/*resizeMode='stretch' */}
             <Image
 
-              style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURL+item.prdUri}} />
+              style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURLIMG+item.prdUri}} />
             <View style={{ flex: 1,marginLeft:8, paddingHorizontal: 5, flexDirection: 'column', justifyContent: 'space-between', height: itemHeight,  }}>
               <View style={{ flexDirection: 'column' }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

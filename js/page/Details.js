@@ -125,7 +125,7 @@ export default class ProductDetail extends React.Component {
                          resizeMethod="scale"
                          resizeMode="stretch"
                          style={{width,height:swiperHeight}} 
-                         source={{uri:Config.BASEURL+item}}
+                         source={{uri:Config.BASEURLIMG+item}}
                          
                          //source={require('../static/images/banner_1.png')} 
                         />
@@ -362,7 +362,7 @@ export default class ProductDetail extends React.Component {
                       </TouchableOpacity>
                   <View style={{flexDirection:'row',padding:10}}>
                       <Image
-                         style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURL+this.state.data.prdUri}} />
+                         style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURLIMG+this.state.data.prdUri}} />
                          <View style={{marginLeft:10,flexDirection:'column',justifyContent:'center'}}>
                                <Text style={{color:StyleConfig.colors.mainColor,fontSize:StyleConfig.fontSize.size_18}}>￥{this.state.data.prdZkprice}</Text>
                                <Text numberOfLines={1} style={{marginVertical:2,fontSize:StyleConfig.fontSize.size_16,color:StyleConfig.colors.defaultFontColor}}>默认规格</Text>
@@ -407,7 +407,7 @@ export default class ProductDetail extends React.Component {
 
          let htmlContent="";
          if(data.prdImgData)
-         data.prdImgData.map((item,index)=>{htmlContent+='<img src="'+Config.BASEURL+item.lidFileuri+'" style="width:100%"/>'})
+         data.prdImgData.map((item,index)=>{htmlContent+='<img src="'+Config.BASEURLIMG+item.lidFileuri+'" style="width:100%"/>'})
      
         return !this.state.isLoading?<View style={styles.container}>
                 <Panel 

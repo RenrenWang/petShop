@@ -32,7 +32,7 @@ import  AddShippingAddress  from './page/AddShippingAddress'
 import  Order  from './page/Order'
 import  Setting  from './page/Setting'
 import  PayResult from './page/PayResult'
-
+import SplashScreen from 'react-native-splash-screen'
 global.storage=new Storage({
   // 最大容量，默认值1000条数据循环存储
   size: 1000,
@@ -279,7 +279,12 @@ export default  class setUp extends Component {
               
           }
       }
-
+      componentDidMount() {
+       
+       setTimeout(()=>{
+        SplashScreen.hide();
+       },2500)
+     }
        componentWillMount(){
           this.subscription = DeviceEventEmitter.addListener('userNameDidChange',(user) => {
                   this.setState({

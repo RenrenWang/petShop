@@ -40,7 +40,7 @@ export default class ListIttem extends React.PureComponent{
       resizeMethod="resize"
                   style={{width:this.props.typeItem=="TC"?200*(width/720):180*(width/720),height:this.props.typeItem=="TC"?250*(width/720):180*(width/720)}}
                   //source={require('../static/images/first1.png')}
-                  source={{uri:Config.BASEURL+this.props.item.prdUri}}
+                  source={{uri:Config.BASEURLIMG+this.props.item.prdUri}}
                   />
        
          {/* <Image  

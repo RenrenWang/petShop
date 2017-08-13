@@ -361,7 +361,7 @@ class TabContent extends React.Component {
   })} key={index} style={{flexDirection:'row',paddingVertical:15, borderBottomColor: StyleConfig.colors.lineColor, borderBottomWidth: 1}}>
                        <Image
 
-                          style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURL+item.prdUri}} />
+                          style={{ width: 162/2, height:162/2 }} source={{uri:Config.BASEURLIMG+item.prdUri}} />
                           <View style={{marginLeft:10,flex:1,justifyContent:'center'}}>
                                <View style={{flexDirection:'row',justifyContent:'space-between',marginVertical:5}}>
                                     <Text style={{fontSize:StyleConfig.fontSize.size_14,color:StyleConfig.colors.blackColor}}>{item.prdName}</Text>

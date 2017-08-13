@@ -45,7 +45,7 @@ constructor(props){
                   resizeMethod="resize"
                   style={{width,height:130}}
                   //source={require('../static/images/first1.png')}
-                 source={{uri:Config.BASEURL+data.prdNuri}}
+                 source={{uri:Config.BASEURLIMG+data.prdNuri}}
                   />
                  <View style={{paddingBottom:10,flexDirection:'column',flex:1,justifyContent:'space-between',width,paddingHorizontal:15}}>
                     <View style={{flexDirection:'column',marginTop:10}}>
@@ -67,7 +67,7 @@ constructor(props){
                  <Image  
                   
                   resizeMethod="resize"
-           style={{width:180*(width/720),height:180*(width/720)}} source={{uri:Config.BASEURL+data.prdUri}}/>
+           style={{width:180*(width/720),height:180*(width/720)}} source={{uri:Config.BASEURLIMG+data.prdUri}}/>
                  <View style={{marginLeft:10,flexDirection:'column',flex:1,justifyContent:'space-between'}}>
                     <View style={{flexDirection:'column',}}>
                          <Text numberOfLines={1} style={{fontSize:StyleConfig.fontSize.size_16,color:StyleConfig.colors.defaultFontColor}}>{data.prdName}</Text>

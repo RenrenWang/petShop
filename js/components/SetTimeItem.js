@@ -33,7 +33,7 @@ export default class SetTimeItem extends React.Component {
            resizeMethod="resize"
            style={{width:180*(width/720),height:180*(width/720)}}  
              //source={require('../static/images/goods2.png')}
-           source={{uri:Config.BASEURL+data.prdUri}}
+           source={{uri:Config.BASEURLIMG+data.prdUri}}
            />
                    <View style={{paddingHorizontal:10,flex:1,flexDirection:'column',justifyContent:'space-between'}}>
                          <Text numberOfLines={2} style={{textAlign:'left',fontSize:StyleConfig.fontSize.size_16,color:StyleConfig.colors.defaultFontColor}}>{data.prdName}</Text>

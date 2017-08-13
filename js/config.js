@@ -1,7 +1,9 @@
 const  BASEURL='http://118.178.224.224/appsrv';
 //http://118.178.224.224:6080/appsrv/cateInfo.action?homeType=CTHOME&pageno=2&prdName=
+const  BASEURLIMG = 'http://118.178.224.224/imgsrv';
 export default{
     BASEURL,
+    BASEURLIMG,
     LOGIN:BASEURL+'/sysLogin.action?appLogin=&userLogin=',
     HOMEGOODS:BASEURL+'/cateInfo.action?homeType=CTHOME',
     SETTIME:BASEURL+'/cateInfo.action?homeType=CTLIMIT',

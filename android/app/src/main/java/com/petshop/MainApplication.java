@@ -5,7 +5,7 @@ import android.app.Application;
 import com.cboy.rn.splashscreen.SplashScreen;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactApplication;
-import com.yunpeng.alipay.AlipayPackage;
+
 import com.example.qiepeipei.react_native_clear_cache.ClearCachePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

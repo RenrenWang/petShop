@@ -36,7 +36,7 @@ export default class ListTWoRow extends React.PureComponent{
   })} style={{width:width/2-15,marginHorizontal:5,flexDirection:'column',marginVertical:5,backgroundColor:StyleConfig.colors.bgColor,alignItems:'center',backgroundColor:this.props.listItemBgColor?this.props.listItemBgColor:'#fff'}}>
                            <Image
                                style={{height:width/2-15,width:width/2-15,paddingHorizontal:5}} 
-                               source={{uri:Config.BASEURL+data.prdUri}}/>
+                               source={{uri:Config.BASEURLIMG+data.prdUri}}/>
                                      <View style={{justifyContent:'space-between',flex:1}}>
 
                                         <View style={{flexDirection:'column',width:(width-40)/2,paddingHorizontal:5}}>

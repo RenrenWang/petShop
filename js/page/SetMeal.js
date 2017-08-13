@@ -131,7 +131,7 @@ export default class SpecialOffer extends React.Component {
                         <Image 
                          resizeMode="cover"
                          style={{width,height:swiperHeight}} 
-                         source={{uri:Config.BASEURL+item.prdNuri}} />
+                         source={{uri:Config.BASEURLIMG+item.prdNuri}} />
                    
                     </View>
                 })}

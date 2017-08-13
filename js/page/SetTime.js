@@ -107,7 +107,7 @@ componentDidMount() {
                         <Image 
                          resizeMode="cover"
                          style={{width,height:swiperHeight}} 
-                         source={{uri:Config.BASEURL+item.prdNuri}} />
+                         source={{uri:Config.BASEURLIMG+item.prdNuri}} />
                    
                     </TouchableOpacity>
                 })}

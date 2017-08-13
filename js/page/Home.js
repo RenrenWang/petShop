@@ -11,7 +11,7 @@ TouchableOpacity,
 StatusBar
 } from 'react-native';
 import _ from 'lodash';
-import SplashScreen from 'react-native-splash-screen'
+
 import  StyleConfig  from '../base/StyleConfig'
 import HomeHeader from '../components/HomeHeader'
 import GridList  from '../components/GridList'
@@ -58,14 +58,14 @@ export default class Home extends React.Component {
   
     componentDidMount() {
 
-        StatusBar.setHidden(false);
+       
       fetch(Config.HOMEGOODS)
       .then((response) => response.json())
       .then((responseJson) => {
        
         //responseJson.maxpage
          if(responseJson.result=="success"){
-            SplashScreen.hide();
+          
              this.setState({
                 banner:responseJson.lbData,
                 setTimeGoods:responseJson.xlData,
@@ -133,7 +133,7 @@ export default class Home extends React.Component {
                          resizeMethod="scale"
                          resizeMode="stretch"
                          style={{width,height:swiperHeight}} 
-                        source={{uri:Config.BASEURL+item.prdNuri}}
+                        source={{uri:Config.BASEURLIMG+item.prdNuri}}
                        // source={{uri:"https://img.alicdn.com/imgextra/i2/161/TB2EEsLblEOyuJjy0FdXXbzApXa_!!161-0-luban.jpg_q50.jpg"}}
                          //
                         // source={require('../static/images/banner_1.png')} 

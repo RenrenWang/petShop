@@ -233,7 +233,7 @@ export default class Order extends React.Component {
 
                         <Image
 
-                            style={{ width: 162 / 2, height: 162 / 2 }} source={{ uri: Config.BASEURL + item.prdUri }} />
+                            style={{ width: 162 / 2, height: 162 / 2 }} source={{ uri: Config.BASEURLIMG + item.prdUri }} />
                         <View style={{ flex: 1, marginLeft: 8, paddingHorizontal: 5, flexDirection: 'column', justifyContent: 'space-between',  }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
